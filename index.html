@@ -158,7 +158,7 @@
       margin:0 0 1rem;
       color:var(--muted);
       max-width:38rem;
-      font-size:.98rem;
+      font-size:1.02rem;
     }
 
     .hero-lead strong{
@@ -193,8 +193,8 @@
 
     .cta-row{
       display:flex;
+      gap:.8rem;
       flex-wrap:wrap;
-      gap:.7rem;
       align-items:center;
       margin-top:1rem;
     }
@@ -212,6 +212,7 @@
       text-align:center;
       white-space:nowrap;
       transition:transform .12s ease, filter .12s ease;
+      min-height:54px;
     }
 
     .btn-primary, .btn-gold{
@@ -235,20 +236,20 @@
     }
 
     .hero-photo{
-      flex:0 0 420px;
+      flex:0 0 430px;
       position:relative;
       display:flex;
       justify-content:center;
       align-items:center;
-      min-width:340px;
-      min-height:360px;
+      min-width:360px;
+      min-height:380px;
     }
 
     .hero-photo::before{
       content:"";
       position:absolute;
-      width:320px;
-      height:320px;
+      width:330px;
+      height:330px;
       border-radius:50%;
       background:radial-gradient(circle, #f4be69 0, #ffffff 52%, #cfe7ff 100%);
       opacity:.62;
@@ -264,8 +265,8 @@
       display:flex;
       justify-content:center;
       align-items:flex-end;
-      gap:30px;
-      padding:40px 30px 90px;
+      gap:40px;
+      padding:40px 40px 95px;
       z-index:1;
     }
 
@@ -274,65 +275,33 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-end;
-    }
-
-    .hero-image-box{
-      width:180px;
-      height:240px;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-    }
-
-    .hero-image-box img{
-      height:auto;
-      object-fit:contain;
-      display:block;
-      filter:drop-shadow(0 10px 20px rgba(15,23,42,.16));
-    }
-
-    /* Jonas angepasst: Kopf auf Höhe von Timo, unten bündiger mit Box */
-    .hero-person.jonas{
+      width:200px;
+      height:260px;
       position:relative;
-      left:96px;
-      top:-54px;
       z-index:1;
     }
 
-    .hero-person.jonas .hero-image-box{
-      width:190px;
-      height:248px;
+    .hero-person img{
+      width:200px;
+      height:auto;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 10px 20px rgba(15,23,42,.18));
     }
 
-    .hero-person.jonas .hero-image-box img{
-      width:190px;
-      max-height:248px;
-      transform:translateY(0);
+    /* Jonas an Timo angepasst */
+    .hero-person.jonas{
+      left:40px;
+      top:-8px;
     }
 
-    .hero-person.jonas .hero-name{
-      display:none;
-    }
-
-    /* Timo unverändert */
-    .hero-person.timo .hero-image-box img{
-      width:132px;
-      max-height:235px;
-      transform:translateY(18px);
+    .hero-person.timo{
+      left:0;
+      top:-8px;
     }
 
     .hero-name{
-      font-weight:800;
-      margin-top:8px;
-      color:var(--primary);
-      text-align:center;
-      font-size:.82rem;
-      line-height:1.2;
-      min-height:1.9em;
-      width:100%;
-      display:block;
-      position:relative;
-      z-index:2;
+      display:none;
     }
 
     .hero-card{
@@ -340,20 +309,20 @@
       bottom:18px;
       right:0;
       background:#fff;
-      padding:18px 22px;
-      border-radius:22px;
+      padding:22px 26px;
+      border-radius:24px;
       border:1px solid rgba(148,163,184,.6);
       box-shadow:0 8px 20px rgba(15,23,42,.18);
       z-index:3;
-      max-width:350px;
+      max-width:370px;
       color:var(--muted);
     }
 
     .hero-card h3{
-      margin:0 0 10px;
+      margin:0 0 12px;
       color:var(--primary);
       font-family:"Raleway",system-ui,sans-serif;
-      font-size:.92rem;
+      font-size:1rem;
       text-align:center;
       font-weight:800;
     }
@@ -368,7 +337,7 @@
       display:flex;
       align-items:flex-start;
       gap:.55rem;
-      margin-bottom:.3rem;
+      margin-bottom:.45rem;
       font-size:.82rem;
     }
 
@@ -708,6 +677,21 @@
       transform:translateY(0);
     }
 
+    @media (min-width:768px){
+      .cta-row{
+        flex-wrap:wrap;
+      }
+
+      .cta-row .btn-primary{
+        flex:0 0 auto;
+      }
+
+      .cta-row .btn-wa,
+      .cta-row .btn-secondary{
+        flex:0 0 315px;
+      }
+    }
+
     @media (max-width:900px){
       .hero-photo{
         flex:1 1 100%;
@@ -715,7 +699,7 @@
       }
     }
 
-    @media (max-width:768px){
+    @media (max-width:767px){
       .topbar{padding-inline:1rem}
       .topbar-right{display:none}
 
@@ -728,7 +712,7 @@
       }
 
       .hero h1{font-size:1.5rem}
-      .hero-lead{font-size:.9rem}
+      .hero-lead{font-size:.92rem}
 
       .hero-photo{
         width:100%;
@@ -742,39 +726,42 @@
       }
 
       .hero-people{
-        gap:14px;
-        padding:30px 10px 30px;
+        gap:18px;
+        padding:30px 10px 32px;
+      }
+
+      .hero-person{
+        width:128px;
+        height:178px;
+      }
+
+      .hero-person img{
+        width:128px;
       }
 
       .hero-person.jonas{
-        left:54px;
-        top:-28px;
+        left:18px;
+        top:-4px;
       }
 
-      .hero-person.jonas .hero-image-box{
-        width:146px;
-        height:190px;
-      }
-
-      .hero-person.jonas .hero-image-box img{
-        width:146px;
-        max-height:190px;
-      }
-
-      .hero-person.jonas .hero-name{
-        display:none;
-      }
-
-      .hero-person.timo .hero-image-box img{
-        width:100px;
-        max-height:165px;
-        transform:translateY(12px);
+      .hero-person.timo{
+        left:0;
+        top:-4px;
       }
 
       .hero-card{
         right:0;
         bottom:0;
         max-width:100%;
+        width:100%;
+      }
+
+      .cta-row{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .cta-row a{
         width:100%;
       }
 
@@ -786,7 +773,6 @@
         grid-template-columns:minmax(0,1fr);
       }
 
-      .cta-row{gap:.5rem}
       .btn-primary,.btn-secondary,.btn-wa,.btn-gold{
         width:100%;
         justify-content:center;
@@ -828,9 +814,7 @@
           <h1>Bis zu <strong>120 €</strong> pro Kind: Weißt Du, ob Du alles bekommst?</h1>
 
           <p class="hero-lead">
-            Wir sind Jonas Plener und Timo Hügel. Viele Eltern verschenken jeden Monat
-            Rentenansprüche und staatliche Förderungen, weil niemand das Thema mit ihnen klar durchgeht.
-            Genau da setzen wir an: <strong>kurz, verständlich und auf Augenhöhe.</strong>
+            Wir sind Jonas Plener und Timo Hügel. Viele Eltern verschenken jeden Monat Rentenansprüche und staatliche Förderungen, weil niemand das Thema mit ihnen klar durchgeht. Genau da setzen wir an: <strong>kurz, verständlich und auf Augenhöhe.</strong>
           </p>
 
           <div class="hero-badges">
@@ -845,7 +829,7 @@
               Eltern-Renten-Check starten
             </a>
             <a href="https://wa.me/4915141678134" target="_blank" rel="noopener" class="btn-wa">
-              Jonas auf WhatsApp
+              Jonas kontaktieren
             </a>
             <a href="https://wa.me/4917663796605" target="_blank" rel="noopener" class="btn-secondary">
               Timo kontaktieren
@@ -856,17 +840,11 @@
         <div class="hero-photo animate-on-scroll">
           <div class="hero-people">
             <div class="hero-person jonas">
-              <div class="hero-image-box">
-                <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
-              </div>
-              <div class="hero-name">Jonas Plener</div>
+              <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
             </div>
 
             <div class="hero-person timo">
-              <div class="hero-image-box">
-                <img src="timo-halbkoerper.png" alt="Timo Hügel" />
-              </div>
-              <div class="hero-name">Timo Hügel</div>
+              <img src="timo-halbkoerper.png" alt="Timo Hügel" />
             </div>
           </div>
 
