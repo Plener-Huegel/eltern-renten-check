@@ -19,6 +19,7 @@
       --good:#16a34a;
       --bad:#dc2626;
       --wa:#25d366;
+
       --shadow:0 10px 25px rgba(15,23,42,.06);
       --shadowStrong:0 18px 45px rgba(15,23,42,.12);
     }
@@ -233,6 +234,7 @@
       transform:translateY(-1px);
     }
 
+    /* HERO BILD-BEREICH */
     .hero-photo{
       flex:0 0 420px;
       position:relative;
@@ -263,13 +265,12 @@
       display:flex;
       justify-content:center;
       align-items:flex-end;
-      gap:26px;
+      gap:30px;
       padding:40px 30px 90px;
       z-index:1;
     }
 
     .hero-person{
-      width:150px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -277,70 +278,87 @@
     }
 
     .hero-image-box{
-      width:150px;
-      height:220px;
+      width:180px;
+      height:240px;
       display:flex;
       align-items:flex-end;
       justify-content:center;
     }
 
     .hero-image-box img{
-      width:150px;
       height:auto;
-      max-height:220px;
       object-fit:contain;
       display:block;
       filter:drop-shadow(0 10px 20px rgba(15,23,42,.16));
     }
 
-    .hero-person-name{
-      margin-top:.45rem;
-      font-size:.82rem;
+    .hero-person.jonas .hero-image-box img{
+      width:175px;
+      max-height:235px;
+      transform:translateY(6px);
+    }
+
+    .hero-person.timo .hero-image-box img{
+      width:132px;
+      max-height:235px;
+      transform:translateY(18px);
+    }
+
+    .hero-name{
       font-weight:800;
+      margin-top:5px;
       color:var(--primary);
       text-align:center;
+      font-size:.82rem;
       line-height:1.2;
       min-height:1.9em;
     }
 
-    .hero-tagcard{
+    .hero-card{
       position:absolute;
-      right:0;
       bottom:18px;
+      right:0;
       background:#fff;
+      padding:18px 22px;
       border-radius:22px;
       border:1px solid rgba(148,163,184,.6);
-      padding:.95rem 1.15rem;
-      font-size:.78rem;
-      color:var(--muted);
       box-shadow:0 8px 20px rgba(15,23,42,.18);
       z-index:3;
       max-width:350px;
+      color:var(--muted);
     }
 
-    .hero-tagcard-title{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight:800;
-      font-size:.92rem;
+    .hero-card h3{
+      margin:0 0 10px;
       color:var(--primary);
-      margin-bottom:.35rem;
+      font-family:"Raleway",system-ui,sans-serif;
+      font-size:1.9rem;
+      font-size:.92rem;
       text-align:center;
+      font-weight:800;
     }
 
-    .hero-tagcard-line{
+    .hero-card ul{
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+
+    .hero-card li{
       display:flex;
       align-items:flex-start;
-      gap:.45rem;
-      margin-bottom:.2rem;
+      gap:.55rem;
+      margin-bottom:.3rem;
       font-size:.82rem;
     }
 
-    .hero-tagcard-dot{
+    .hero-card li::before{
+      content:"";
       width:8px;
       height:8px;
       border-radius:999px;
       background:var(--accent);
-      margin-top:.38rem;
+      margin-top:.42rem;
       flex:0 0 8px;
     }
 
@@ -708,21 +726,24 @@
         padding:30px 10px 30px;
       }
 
-      .hero-person{
-        width:120px;
-      }
-
       .hero-image-box{
-        width:120px;
+        width:130px;
         height:170px;
       }
 
-      .hero-image-box img{
-        width:120px;
-        max-height:170px;
+      .hero-person.jonas .hero-image-box img{
+        width:126px;
+        max-height:165px;
+        transform:translateY(4px);
       }
 
-      .hero-tagcard{
+      .hero-person.timo .hero-image-box img{
+        width:100px;
+        max-height:165px;
+        transform:translateY(12px);
+      }
+
+      .hero-card{
         right:0;
         bottom:0;
         max-width:100%;
@@ -806,31 +827,27 @@
 
         <div class="hero-photo animate-on-scroll">
           <div class="hero-people">
-            <div class="hero-person">
+            <div class="hero-person jonas">
               <div class="hero-image-box">
                 <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
               </div>
-              <div class="hero-person-name">Jonas Plener</div>
+              <div class="hero-name">Jonas Plener</div>
             </div>
 
-            <div class="hero-person">
+            <div class="hero-person timo">
               <div class="hero-image-box">
                 <img src="timo-halbkoerper.png" alt="Timo Hügel" />
               </div>
-              <div class="hero-person-name">Timo Hügel</div>
+              <div class="hero-name">Timo Hügel</div>
             </div>
           </div>
 
-          <div class="hero-tagcard">
-            <div class="hero-tagcard-title">Eure Ansprechpartner</div>
-            <div class="hero-tagcard-line">
-              <span class="hero-tagcard-dot"></span>
-              <span>Eltern und Familien im Fokus</span>
-            </div>
-            <div class="hero-tagcard-line">
-              <span class="hero-tagcard-dot"></span>
-              <span>Beratung digital und vor Ort</span>
-            </div>
+          <div class="hero-card">
+            <h3>Eure Ansprechpartner</h3>
+            <ul>
+              <li>Eltern und Familien im Fokus</li>
+              <li>Beratung digital und vor Ort</li>
+            </ul>
           </div>
         </div>
 
