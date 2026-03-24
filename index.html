@@ -291,11 +291,11 @@
       filter:drop-shadow(0 10px 20px rgba(15,23,42,.16));
     }
 
-    /* Jonas weiter angepasst */
+    /* Jonas final angepasst */
     .hero-person.jonas{
       position:relative;
-      left:92px;
-      top:-18px;
+      left:112px;
+      top:-6px;
       z-index:1;
     }
 
@@ -308,6 +308,11 @@
       width:194px;
       max-height:255px;
       transform:translateY(0);
+    }
+
+    /* Jonas-Name ausblenden */
+    .hero-person.jonas .hero-name{
+      display:none;
     }
 
     /* Timo unverändert */
@@ -329,11 +334,6 @@
       display:block;
       position:relative;
       z-index:2;
-    }
-
-    .hero-person.jonas .hero-name{
-      margin-top:10px;
-      text-align:center;
     }
 
     .hero-card{
@@ -748,8 +748,8 @@
       }
 
       .hero-person.jonas{
-        left:54px;
-        top:-10px;
+        left:64px;
+        top:-4px;
       }
 
       .hero-person.jonas .hero-image-box{
@@ -760,7 +760,10 @@
       .hero-person.jonas .hero-image-box img{
         width:144px;
         max-height:185px;
-        transform:translateY(0);
+      }
+
+      .hero-person.jonas .hero-name{
+        display:none;
       }
 
       .hero-person.timo .hero-image-box img{
