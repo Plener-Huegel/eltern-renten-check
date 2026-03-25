@@ -54,15 +54,26 @@
       background: linear-gradient(to right, #ffffff, #fef3c7);
     }
 
-    .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-left { display: flex; align-items: center; gap: 0.85rem; }
 
-    .topbar-portrait img {
+    .topbar-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-avatars img {
       height: 54px;
       width: 54px;
       border-radius: 50%;
       object-fit: cover;
       display: block;
       box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+      border: 2px solid #ffffff;
+      background: #ffffff;
+    }
+
+    .topbar-avatars img + img {
+      margin-left: -10px;
     }
 
     .topbar-title {
@@ -168,59 +179,141 @@
 
     .badge .arrow { font-size: 0.9rem; color: var(--primary); }
 
-    .hero-photo {
-      flex: 0 0 280px;
-      text-align: right;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 0.7rem;
+    .hero-photo{
+      flex:0 0 450px;
+      position:relative;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-width:360px;
+      min-height:420px;
     }
 
-    .hero-photo img {
-      max-width: 320px;
-      height: auto;
-      position: relative;
-      z-index: 1;
+    .hero-photo::before{
+      content:"";
+      position:absolute;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:radial-gradient(circle, #f4be69 0, #ffffff 52%, #cfe7ff 100%);
+      opacity:.62;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:0;
     }
 
-    .hero-tagcard {
-      position: absolute;
-      bottom: 0;
-      right: 10px;
-      background: #ffffff;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      padding: 0.55rem 0.7rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
-      z-index: 2;
-      max-width: 220px;
+    .hero-people{
+      position:absolute;
+      inset:0;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:16px;
+      padding:28px 24px 112px;
+      z-index:1;
     }
 
-    .hero-tagcard-title {
-      font-family: "Raleway", system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: var(--primary);
-      margin-bottom: 0.2rem;
+    .hero-person{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+      position:relative;
+      z-index:1;
     }
 
-    .hero-tagcard-line {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      margin-bottom: 0.1rem;
+    .hero-image-box{
+      width:210px;
+      height:290px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
     }
 
-    .hero-tagcard-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
+    .hero-image-box img{
+      height:auto;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 10px 20px rgba(15,23,42,.16));
+    }
+
+    .hero-person.jonas{
+      left:52px;
+      top:-8px;
+    }
+
+    .hero-person.jonas .hero-image-box img{
+      width:341px;
+      max-height:435px;
+      transform:translateY(12px);
+    }
+
+    .hero-person.timo{
+      left:-40px;
+      top:-8px;
+    }
+
+    .hero-person.timo .hero-image-box img{
+      width:168px;
+      max-height:225px;
+      transform:translateY(12px);
+    }
+
+    .hero-name{
+      display:none;
+    }
+
+    .hero-card{
+      position:absolute;
+      bottom:18px;
+      right:57px;
+      background:#fff;
+      padding:18px 30px;
+      border-radius:22px;
+      border:1px solid rgba(148,163,184,.6);
+      box-shadow:0 8px 20px rgba(15,23,42,.18);
+      z-index:3;
+      width:333px;
+      color:var(--muted);
+    }
+
+    .hero-card h3{
+      margin:0 0 10px;
+      color:var(--primary);
+      font-family:"Raleway",system-ui,sans-serif;
+      font-size:.92rem;
+      text-align:center;
+      font-weight:800;
+    }
+
+    .hero-card ul{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+
+    .hero-card li{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      gap:.55rem;
+      margin-bottom:.3rem;
+      font-size:.82rem;
+      text-align:center;
+    }
+
+    .hero-card li::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--accent);
+      margin-top:.42rem;
+      flex:0 0 8px;
     }
 
     .cta-row {
@@ -303,18 +396,9 @@
       margin-bottom: 0.25rem;
     }
 
-    .card-clickable {
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .card-clickable:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09);
-    }
-
     .btn-primary,
     .btn-secondary,
+    .btn-wa,
     .btn-gold {
       display: inline-flex;
       align-items: center;
@@ -327,9 +411,12 @@
       border: none;
       text-align: center;
       white-space: nowrap;
+      transition: transform 0.12s ease, filter 0.12s ease;
+      min-height: 54px;
     }
 
-    .btn-primary {
+    .btn-primary,
+    .btn-gold {
       background: var(--accent);
       color: #1f2933;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
@@ -341,14 +428,15 @@
       border: 1px solid rgba(148, 163, 184, 0.85);
     }
 
-    .btn-gold {
-      background: var(--accent);
-      color: #1f2933;
+    .btn-wa {
+      background: #25d366;
+      color: #fff;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     }
 
     .btn-primary:hover,
     .btn-secondary:hover,
+    .btn-wa:hover,
     .btn-gold:hover {
       filter: brightness(1.03);
       transform: translateY(-1px);
@@ -448,16 +536,77 @@
       .hero h1 { font-size: 1.5rem; }
       .hero-lead { font-size: 0.9rem; }
 
-      .hero-photo { width: 100%; justify-content: center; align-items: center; }
-      .hero-photo img { max-width: 280px; }
+      /* ── Foto-Bereich: normaler Flex-Block statt absolute Kinder ── */
+      .hero-photo{
+        width:100%;
+        flex:none;
+        min-width:0;
+        min-height:0;
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        position:relative;
+        overflow:hidden;
+      }
 
-      .hero-tagcard {
-        position: static;
-        transform: none;
-        margin-top: 0.6rem;
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
-        max-width: 260px;
-        text-align: left;
+      .hero-photo::before{
+        width:200px;
+        height:200px;
+      }
+
+      /* Personen im normalen Fluss, nebeneinander, unten bündig */
+      .hero-people{
+        position:relative;
+        inset:auto;
+        top:auto;
+        left:auto;
+        right:auto;
+        bottom:auto;
+        display:flex;
+        justify-content:center;
+        align-items:flex-end;
+        padding:24px 16px 0;
+        gap:0;
+      }
+
+      .hero-image-box{
+        width:auto;
+        height:auto;
+      }
+
+      /* Jonas-Offset */
+      .hero-person.jonas{
+        left:10px;
+        top:0;
+      }
+
+      .hero-person.jonas .hero-image-box img{
+        width:min(63vw,231px);
+        max-height:300px;
+        transform:none;
+      }
+
+      /* Timo-Offset */
+      .hero-person.timo{
+        left:-50px;
+        top:0;
+      }
+
+      .hero-person.timo .hero-image-box img{
+        width:min(31vw,116px);
+        max-height:156px;
+        transform:none;
+      }
+
+      /* Info-Karte: statisch, unter den Bildern, beidseitig 45px Abstand */
+      .hero-card{
+        position:static;
+        right:auto;
+        bottom:auto;
+        width:auto;
+        margin:-11px 45px 0;
+        border-radius:16px;
+        padding:14px 20px;
       }
 
       section { margin-bottom: 1.7rem; }
@@ -465,6 +614,7 @@
 
       .btn-primary,
       .btn-secondary,
+      .btn-wa,
       .btn-gold { width: 100%; justify-content: center; }
 
       .modal {
@@ -479,11 +629,12 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-portrait">
+      <div class="topbar-avatars">
         <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
+        <img src="timo-halbkoerper.png" alt="Timo Hügel" />
       </div>
       <div>
-        <div class="topbar-title">Jonas Plener</div>
+        <div class="topbar-title">Jonas Plener &amp; Timo Hügel</div>
         <div class="topbar-tagline">
           Agentur für Deutsche Vermögensberatung<br />
           (Region Kinzigtal / Ortenau)
@@ -506,7 +657,7 @@
           <span class="dot"></span>
           Leistungen · Finanzplanung auf Augenhöhe
         </div>
-        <h1>Meine Leistungen für Dich, Deine Familie und Dein Unternehmen</h1>
+        <h1>Unsere Leistungen für Dich, Deine Familie und Dein Unternehmen</h1>
         <p class="hero-lead">
           Von der ersten Absicherung über den Eltern-Retter bis hin zur
           langfristigen Vermögensplanung – Du bekommst alles aus einer Hand.
@@ -541,26 +692,34 @@
              class="btn-primary">
             Unverbindliches Kennenlerngespräch
           </a>
-          <a href="https://wa.me/4917663796605"
-             target="_blank"
-             class="btn-secondary">
-            Kurzfrage per WhatsApp stellen
+          <a href="https://wa.me/4915141678134" target="_blank" rel="noopener" class="btn-wa">
+            Jonas kontaktieren
+          </a>
+          <a href="https://wa.me/4917663796605" target="_blank" rel="noopener" class="btn-wa">
+            Timo kontaktieren
           </a>
         </div>
       </div>
 
       <div class="hero-photo animate-on-scroll">
-        <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
-        <div class="hero-tagcard">
-          <div class="hero-tagcard-title">Dein Ansprechpartner</div>
-          <div class="hero-tagcard-line">
-            <span class="hero-tagcard-dot"></span>
-            <span>Eltern, Familien & Selbstständige</span>
+        <div class="hero-people">
+          <div class="hero-person jonas">
+            <div class="hero-image-box">
+              <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
+            </div>
           </div>
-          <div class="hero-tagcard-line">
-            <span class="hero-tagcard-dot"></span>
-            <span>Beratung digital und vor Ort</span>
+          <div class="hero-person timo">
+            <div class="hero-image-box">
+              <img src="timo-halbkoerper.png" alt="Timo Hügel" />
+            </div>
           </div>
+        </div>
+        <div class="hero-card">
+          <h3>Eure Ansprechpartner</h3>
+          <ul>
+            <li>Eltern und Familien im Fokus</li>
+            <li>Beratung digital und vor Ort</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -579,7 +738,7 @@
 
       <div class="grid-3">
         <!-- Absicherung & Schutz -->
-        <div class="card card-clickable" data-modal-target="modal-absicherung">
+        <div class="card">
           <div class="card-title">Absicherung &amp; Schutz</div>
           <ul>
             <li>Berufsunfähigkeit &amp; Arbeitskraftabsicherung</li>
@@ -589,7 +748,7 @@
         </div>
 
         <!-- Vorsorge & Rente -->
-        <div class="card card-clickable" data-modal-target="modal-vorsorge">
+        <div class="card">
           <div class="card-title">Vorsorge &amp; Rente</div>
           <ul>
             <li>Riester-Rente mit Zulagen</li>
@@ -599,7 +758,7 @@
         </div>
 
         <!-- Vermögensaufbau & Sparen -->
-        <div class="card card-clickable" data-modal-target="modal-vermoegen">
+        <div class="card">
           <div class="card-title">Vermögensaufbau &amp; Sparen</div>
           <ul>
             <li>Investment- &amp; Fondssparpläne</li>
@@ -622,12 +781,12 @@
       <h2>Eltern-Retter, Kinder-Absicherung und alles dazwischen</h2>
       <div class="section-subtitle">
         Für Eltern geht es nicht nur um Zahlen, sondern um Sicherheit für die ganze Familie.
-        Genau dort setzt meine Beratung an.
+        Genau dort setzen wir an.
       </div>
 
       <div class="grid-3">
         <!-- Eltern-Retter -->
-        <div class="card card-clickable" data-modal-target="modal-elternretter">
+        <div class="card">
           <div class="card-title">Eltern-Retter &amp; Kindererziehungszeiten</div>
           <ul>
             <li>Kindererziehungszeiten prüfen und nachmelden</li>
@@ -637,7 +796,7 @@
         </div>
 
         <!-- Kinder absichern -->
-        <div class="card card-clickable" data-modal-target="modal-kinderabsichern">
+        <div class="card">
           <div class="card-title">Kinder absichern</div>
           <ul>
             <li>Unfall- &amp; Gesundheitsabsicherung für Kinder</li>
@@ -647,7 +806,7 @@
         </div>
 
         <!-- Ausbildung & Zukunft -->
-        <div class="card card-clickable" data-modal-target="modal-ausbildung">
+        <div class="card">
           <div class="card-title">Ausbildung &amp; Zukunft</div>
           <ul>
             <li>Sparen für Ausbildung, Studium &amp; Start ins Leben</li>
@@ -670,7 +829,7 @@
       <div class="tagline">Unternehmen & Selbstständige</div>
       <h2>Dein Unternehmen, Deine Mitarbeiter, Deine Vorsorge</h2>
       <div class="section-subtitle">
-        Ob kleiner Betrieb oder wachsendes Unternehmen: Ich helfe Dir, private und betriebliche Themen
+        Ob kleiner Betrieb oder wachsendes Unternehmen: Wir helfen Dir, private und betriebliche Themen
         sauber zu trennen – und trotzdem aufeinander abzustimmen.
       </div>
 
