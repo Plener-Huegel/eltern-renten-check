@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Was passt zu dir? – Plener & Hügel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary:    #3d6569;
+      --primary-dk: #2a4547;
+      --accent:     #d99b30;
+      --accent-dk:  #b87a14;
+      --teal2:      #0a4d48;
+      --indigo:     #4f46e5;
+      --text:       #050809;
+      --text-light: #0f1419;
+      --muted:      #3d4652;
+      --bg:         #ebe4db;
+      --card-bg:    rgba(255, 255, 255, 0.49);
+      --card-bg-dark: rgba(248, 245, 240, 0.38);
+      --white:      #ffffff;
+      --border:     rgba(160, 174, 192, 0.4);
+      --shadow:     0 8px 28px rgba(5,8,9,.08);
+      --shadow-md:  0 16px 45px rgba(5,8,9,.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: "Arimo", system-ui, -apple-system, sans-serif;
+      background: #ebe4db;
+      min-height: 100vh;
+      color: var(--text);
+      position: relative;
+    }
+
+    /* Animated canvas background */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* LAYOUT */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* SCREENS */
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      padding: 2.5rem 1.15rem 2.5rem;
+    }
+    .screen.active {
+      display: flex;
+      animation: fadeSlide .3s ease;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateX(18px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeSlideBack {
+      from { opacity: 0; transform: translateX(-18px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .screen.active.back-anim { animation: fadeSlideBack .26s ease; }
+
+    /* INTRO LABEL */
+    .intro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-family: "Raleway", sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: .7rem;
+    }
+    .intro-label::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* HEADLINE */
+    .screen-headline {
+      font-family: "Raleway", sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      line-height: 1.22;
+      color: var(--text);
+      margin-bottom: .45rem;
+    }
+    .screen-headline em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .screen-sub {
+      font-size: .875rem;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+      line-height: 1.5;
+    }
+
+    /* CATEGORY CARDS (2×2) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .85rem;
+      flex: 1;
+      align-content: start;
+    }
+
+    .cat-card {
+      position: relative;
+      border-radius: 22px;
+      padding: 1.35rem 1rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .42rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      text-align: left;
+      font-family: inherit;
+      overflow: hidden;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-md);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      min-height: 152px;
+    }
+    .cat-card:active {
+      transform: scale(.96);
+      box-shadow: 0 6px 18px rgba(15,23,42,.18);
+    }
+
+    /* ripple overlay on tap */
+    .cat-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,.18);
+      opacity: 0;
+      border-radius: inherit;
+      transition: opacity .18s;
+    }
+    .cat-card:active::after { opacity: 1; }
+
+    .cat-card.angestellt {
+      background: linear-gradient(148deg, rgba(61,101,105,.56) 0%, rgba(42,69,71,.56) 100%);
+      color: #fff;
+      backdrop-filter: blur(12px);
+      border-color: rgba(61,101,105,.3);
+    }
+    .cat-card.unternehmer {
+      background: linear-gradient(148deg, rgba(10,77,72,.51) 0%, rgba(14,96,130,.51) 100%);
+      color: #fff;
+      backdrop-filter: blur(12px);
+      border-color: rgba(10,77,72,.25);
+    }
+    .cat-card.eltern {
+      background: linear-gradient(148deg, rgba(217,155,48,.54) 0%, rgba(184,122,20,.54) 100%);
+      color: #1a1200;
+      backdrop-filter: blur(12px);
+      border-color: rgba(217,155,48,.3);
+    }
+    .cat-card.start {
+      background: linear-gradient(148deg, rgba(79,70,229,.51) 0%, rgba(124,58,237,.51) 100%);
+      color: #fff;
+      backdrop-filter: blur(12px);
+      border-color: rgba(79,70,229,.25);
+    }
+
+    .card-icon { font-size: 1.9rem; line-height: 1; }
+    .card-title {
+      font-family: "Raleway", sans-serif;
+      font-weight: 800;
+      font-size: .97rem;
+      line-height: 1.2;
+    }
+    .card-trigger {
+      font-size: .72rem;
+      opacity: .82;
+      line-height: 1.35;
+    }
+    .card-arrow {
+      position: absolute;
+      bottom: .85rem;
+      right: .95rem;
+      font-size: 1.25rem;
+      opacity: .55;
+    }
+
+    /* BACK BUTTON */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: none;
+      border: none;
+      font-family: "Arimo", sans-serif;
+      font-size: .84rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: .3rem 0;
+      margin-bottom: .9rem;
+      transition: color .2s;
+    }
+    .back-btn:hover { color: var(--primary); }
+    .back-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* CATEGORY BADGE */
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .28rem .8rem;
+      border-radius: 999px;
+      font-family: "Raleway", sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-bottom: .55rem;
+    }
+    .cat-badge.angestellt  { background: rgba(74,120,125,.13); color: #2d5154; }
+    .cat-badge.unternehmer { background: rgba(15,118,110,.13); color: #0a524b; }
+    .cat-badge.eltern      { background: rgba(244,190,105,.25); color: #7a4e0a; }
+    .cat-badge.start       { background: rgba(99,102,241,.13); color: #4338ca; }
+
+    /* SUB LIST */
+    .sub-list {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .sub-item {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      padding: .95rem 1rem;
+      background: rgba(255, 255, 255, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1.5px solid rgba(160, 174, 192, 0.3);
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(5,8,9,.03);
+      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease, background .14s ease;
+      outline: none;
+    }
+    .sub-item:active {
+      transform: translateX(5px);
+      border-color: var(--primary);
+      box-shadow: 0 5px 18px rgba(61,101,105,.12);
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .sub-icon {
+      font-size: 1.35rem;
+      width: 2.1rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .sub-text { flex: 1; min-width: 0; }
+    .sub-title {
+      font-family: "Raleway", sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .sub-desc {
+      font-size: .73rem;
+      color: var(--muted);
+      margin-top: .1rem;
+      line-height: 1.35;
+    }
+    .sub-chevron {
+      color: var(--primary);
+      font-size: 1.25rem;
+      opacity: .65;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* FOOTER */
+    .footer {
+      display: none;
+    }
+
+    @media (min-width: 400px) {
+      .screen-headline { font-size: 1.75rem; }
+      .cat-card { min-height: 165px; }
+    }
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="wrap">
+
+  <!-- SCREEN 1: KATEGORIEN -->
+  <section class="screen active" id="screen-1" aria-label="Themenauswahl">
+
+    <p class="intro-label">Deine Finanzthemen</p>
+    <h1 class="screen-headline">Was passt gerade <em>am besten</em> zu dir?</h1>
+    <p class="screen-sub">Wähle dein Thema – in 2 Klicks zu den passenden Infos.</p>
+
+    <div class="cards-grid">
+
+      <button class="cat-card angestellt" onclick="showScreen2('angestellt')" aria-label="Kategorie: Angestellt">
+        <span class="card-icon">💼</span>
+        <span class="card-title">Angestellt</span>
+        <span class="card-trigger">Mehr rausholen aus deinem Gehalt</span>
+        <span class="card-arrow">→</span>
+      </button>
+
+      <button class="cat-card unternehmer" onclick="showScreen2('unternehmer')" aria-label="Kategorie: Unternehmer / Selbstständig">
+        <span class="card-icon">🏢</span>
+        <span class="card-title">Unternehmer&shy; / Selbst&shy;ständig</span>
+        <span class="card-trigger">Mehr Gewinn behalten statt verlieren</span>
+        <span class="card-arrow">→</span>
+      </button>
+
+      <button class="cat-card eltern" onclick="showScreen2('eltern')" aria-label="Kategorie: Eltern / Familie">
+        <span class="card-icon">👨‍👩‍👧</span>
+        <span class="card-title">Eltern / Familie</span>
+        <span class="card-trigger">Hol dir zurück, was dir zusteht</span>
+        <span class="card-arrow">→</span>
+      </button>
+
+      <button class="cat-card start" onclick="showScreen2('karriere')" aria-label="Kategorie: Karriere / Ausbildung">
+        <span class="card-icon">🚀</span>
+        <span class="card-title">Karriere &shy;/ Ausbildung</span>
+        <span class="card-trigger">Neue Wege statt Stillstand</span>
+        <span class="card-arrow">→</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- SCREEN 2: UNTERKATEGORIEN -->
+  <section class="screen" id="screen-2" aria-label="Themenwahl">
+
+    <button class="back-btn" onclick="showScreen1()" aria-label="Zurück zur Übersicht">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 13L5 8l5-5"/>
+      </svg>
+      Zurück
+    </button>
+
+    <div id="cat-badge-wrap"></div>
+    <h2 class="screen-headline" id="s2-headline"></h2>
+    <p class="screen-sub">Wähle ein Thema und erhalte direkt die passenden Infos.</p>
+
+    <div class="sub-list" id="sub-list" role="list"></div>
+
+  </section>
+
+</div>
+
+
+<script>
+const DATA = {
+  angestellt: {
+    label:      "💼 Angestellt",
+    badgeClass: "angestellt",
+    headline:   "Was interessiert dich gerade am meisten?",
+    items: [
+      { icon:"📈", title:"Vermögen aufbauen & investieren",  desc:"Schritt für Schritt zum eigenen Vermögen",       href:"vermoegen-aufbauen-investieren.html" },
+      { icon:"🗂️", title:"Betriebliche Altersvorsorge",      desc:"Die richtigen Hebel für mehr Rente",             href:"bav.html" },
+      { icon:"🛡️", title:"Arbeitskraft absichern",           desc:"Dein Einkommen schützen – für alle Fälle",       href:"arbeitskraftabsicherung.html" },
+      { icon:"❤️", title:"Familie absichern",                desc:"Das Wichtigste im Leben gut absichern",          href:"risikoleben.html" },
+      { icon:"🏠", title:"Sachversicherungen",               desc:"Den Alltag & Besitz richtig schützen",           href:"sachversicherungen.html" },
+      { icon:"🏡", title:"Immobilien & Finanzierung",        desc:"Wann & wie der Kauf wirklich lohnt",             href:"immobilien-finanzierung.html" },
+    ]
+  },
+  unternehmer: {
+    label:      "🏢 Unternehmer / Selbstständig",
+    badgeClass: "unternehmer",
+    headline:   "Wo siehst du gerade Potenzial?",
+    items: [
+      { icon:"💧", title:"Liquidität",                      desc:"Geld schneller verfügbar, Cash-Flow optimiert",  href:"liquiditaet.html" },
+      { icon:"👥", title:"Mitarbeiter Benefits",            desc:"Mehr Netto vom Brutto für dein Team",            href:"mitarbeiter-benefits.html" },
+      { icon:"⚡", title:"Energie",                         desc:"Kosten senken ohne großen Aufwand",              href:"energie.html" },
+      { icon:"🔒", title:"Unternehmer absichern",           desc:"Risiken im Griff – Betrieb & Existenz",         href:"unternehmer-absicherung.html" },
+      { icon:"📋", title:"Verträge optimieren",             desc:"Einsparpotenziale systematisch nutzen",          href:"vertraege-optimieren.html" },
+      { icon:"📊", title:"Rürup-Vorsorge",                  desc:"Steuern sparen & Altersvorsorge aufbauen",       href:"ruerup.html" },
+      { icon:"🏡", title:"Immobilien & Finanzierung",       desc:"Wachstum & Investitionen richtig finanzieren",   href:"immobilien-finanzierung.html" },
+    ]
+  },
+  eltern: {
+    label:      "👨‍👩‍👧 Eltern & Familie",
+    badgeClass: "eltern",
+    headline:   "Welches Thema ist für euch gerade relevant?",
+    items: [
+      { icon:"👶", title:"Kinder absichern",                desc:"Finanziell vorsorgen für die kleinen",           href:"kinder-absichern.html" },
+      { icon:"📜", title:"Kindererziehungszeiten",         desc:"Rentenpunkte, die viele einfach verschenken",    href:"eltern-retter-kindererziehungszeiten.html" },
+      { icon:"🎁", title:"Riester",                        desc:"Wann Riester-Rente wirklich Sinn ergibt",        href:"riester.html" },
+      { icon:"❤️", title:"Familie absichern",              desc:"Das Wichtigste im Leben gut absichern",          href:"risikoleben.html" },
+    ]
+  },
+  karriere: {
+    label:      "🚀 Karriere & Ausbildung",
+    badgeClass: "start",
+    headline:   "Was passt zu deiner Situation?",
+    items: [
+      { icon:"🎓", title:"Ausbildung & Zukunft",           desc:"Die richtigen Weichen von Anfang an stellen",   href:"ausbildung-und-zukunft.html" },
+      { icon:"💼", title:"Karriere im Finanzbereich",      desc:"Wachstumsperspektiven & Entwicklung",            href:"karriere-im-finanzbereich.html" },
+    ]
+  }
+};
+
+function showScreen2(catKey) {
+  const cat = DATA[catKey];
+
+  try {
+    localStorage.setItem('funnel_kategorie',  catKey);
+    localStorage.setItem('funnel_ts',         new Date().toISOString());
+  } catch(_) {}
+
+  document.getElementById('cat-badge-wrap').innerHTML =
+    `<span class="cat-badge ${cat.badgeClass}" aria-label="Kategorie: ${cat.label.replace(/\S+\s/,'')}">${cat.label}</span>`;
+
+  document.getElementById('s2-headline').textContent = cat.headline;
+
+  document.getElementById('sub-list').innerHTML = cat.items.map(item => `
+    <a class="sub-item"
+       href="${item.href}"
+       role="listitem"
+       onclick="trackSub('${catKey}', ${JSON.stringify(item.title)})">
+      <span class="sub-icon" aria-hidden="true">${item.icon}</span>
+      <span class="sub-text">
+        <span class="sub-title">${item.title}</span>
+        <span class="sub-desc">${item.desc}</span>
+      </span>
+      <span class="sub-chevron" aria-hidden="true">›</span>
+    </a>`).join('');
+
+  const s1 = document.getElementById('screen-1');
+  const s2 = document.getElementById('screen-2');
+  s1.classList.remove('active');
+  s2.classList.remove('back-anim');
+  s2.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function showScreen1() {
+  const s1 = document.getElementById('screen-1');
+  const s2 = document.getElementById('screen-2');
+  s2.classList.remove('active');
+  s1.classList.add('active', 'back-anim');
+  s1.addEventListener('animationend', () => s1.classList.remove('back-anim'), { once: true });
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function trackSub(cat, sub) {
+  try {
+    const tag = (cat + '_' + sub)
+      .toLowerCase()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[^a-z0-9_]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '');
+    localStorage.setItem('funnel_unterkategorie', sub);
+    localStorage.setItem('funnel_tag',            tag);
+    localStorage.setItem('funnel_pfad',           cat + ' → ' + sub);
+    localStorage.setItem('funnel_ts_sub',         new Date().toISOString());
+  } catch(_) {}
+}
+</script>
+
+<script>
+/* ── Animated background canvas ── */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* Card-matching colour palette:
+     Angestellt → teal       Unternehmer → dark teal
+     Eltern     → amber      Start       → indigo     */
+  const palette = [
+    [61,  101, 105],   // teal         (Angestellt)
+    [10,  77,  72 ],   // dark teal    (Unternehmer)
+    [217, 155, 48 ],   // amber        (Eltern)
+    [79,  70,  229],   // indigo       (Start)
+    [42,  69,  71 ],   // teal-dark    (accent)
+    [184, 122, 20 ],   // amber-dark   (accent)
+    [61,  101, 105],   // teal (repeat)
+    [10,  77,  72 ],   // dark teal (repeat)
+  ];
+
+  const orbs = palette.map(function (rgb, i) {
+    return {
+      x:     Math.random() * window.innerWidth,
+      y:     Math.random() * window.innerHeight,
+      r:     180 + Math.random() * 220,
+      dx:    (Math.random() - 0.5) * 0.38,
+      dy:    (Math.random() - 0.5) * 0.38,
+      rgb:   rgb,
+      alpha: 0.10 + Math.random() * 0.10,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.004 + Math.random() * 0.003,
+    };
+  });
+
+  function draw() {
+    const w = canvas.width;
+    const h = canvas.height;
+
+    /* Base warm-sand fill */
+    ctx.fillStyle = '#ebe4db';
+    ctx.fillRect(0, 0, w, h);
+
+    /* Soft diagonal tint */
+    const diag = ctx.createLinearGradient(0, 0, w, h);
+    diag.addColorStop(0,   'rgba(235,228,219,0)');
+    diag.addColorStop(0.5, 'rgba(227,238,242,0.18)');
+    diag.addColorStop(1,   'rgba(235,228,219,0)');
+    ctx.fillStyle = diag;
+    ctx.fillRect(0, 0, w, h);
+
+    const t = performance.now() * 0.001;
+
+    orbs.forEach(function (orb) {
+      /* Gentle breathing effect */
+      const breathe = 1 + 0.06 * Math.sin(t * orb.speed * 60 + orb.phase);
+      const r = orb.r * breathe;
+
+      const grad = ctx.createRadialGradient(
+        orb.x, orb.y, 0,
+        orb.x, orb.y, r
+      );
+      const [red, green, blue] = orb.rgb;
+      grad.addColorStop(0,   `rgba(${red},${green},${blue},${(orb.alpha * 2.2).toFixed(3)})`);
+      grad.addColorStop(0.45,`rgba(${red},${green},${blue},${orb.alpha.toFixed(3)})`);
+      grad.addColorStop(1,   `rgba(${red},${green},${blue},0)`);
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(orb.x, orb.y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      /* Move */
+      orb.x += orb.dx;
+      orb.y += orb.dy;
+
+      /* Wrap around */
+      if (orb.x < -r)      orb.x = w + r;
+      if (orb.x > w + r)   orb.x = -r;
+      if (orb.y < -r)      orb.y = h + r;
+      if (orb.y > h + r)   orb.y = -r;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+}());
+</script>
+</body>
+</html>
