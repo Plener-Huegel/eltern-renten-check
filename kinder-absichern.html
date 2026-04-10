@@ -637,6 +637,57 @@
       margin-bottom: 0.45rem;
     }
 
+    .kontakt-box {
+      background: linear-gradient(135deg, #e0f2fe, #fef3c7);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem 1.4rem 1.7rem;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    .kontakt-box h2 {
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+      font-size: 1.3rem;
+    }
+
+    .kontakt-box p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .kontakt-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .kontakt-mini-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .kontakt-mini-link {
+      font-size: 0.82rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .kontakt-mini-link:hover {
+      text-decoration: underline;
+    }
+
     .signal-card {
       background: linear-gradient(160deg, var(--soft-warn) 0, #ffffff 80%);
       border-color: #fed7aa;
@@ -758,8 +809,11 @@
         width: 100%;
       }
       .contact-strip { grid-template-columns: 1fr; }
-      .cta-row { flex-direction: column; align-items: stretch; }
-      .cta-row a { width: 100%; }
+      .cta-row,
+      .kontakt-btn-row,
+      .kontakt-mini-row { flex-direction: column; align-items: stretch; }
+      .cta-row a,
+      .kontakt-mini-link { width: 100%; }
     }
   </style>
 </head>
@@ -819,12 +873,10 @@
             <h2 class="menu-section-title">Unternehmer &amp; Selbstständig</h2>
             <ul class="menu-section-links">
               <li><a href="liquiditaet.html">Liquidität</a></li>
-              <li><a href="mitarbeiter-benefits.html">Mitarbeiter Benefits</a></li>
+              <li><a href="mitarbeiter-benefits.html">Betriebliche Krankenversicherung</a></li>
               <li><a href="energie.html">Energie</a></li>
-              <li><a href="unternehmer-absicherung.html">Unternehmer absichern</a></li>
-              <li><a href="vertraege-optimieren.html">Verträge optimieren</a></li>
+              <li><a href="betriebliche-sachversicherung.html">Betriebliche Sachversicherungen</a></li>
               <li><a href="ruerup.html">Rürup</a></li>
-              <li><a href="immobilien-finanzierung.html">Immobilien &amp; Finanzierung</a></li>
             </ul>
           </section>
           <section class="menu-section">
@@ -1071,9 +1123,24 @@
             </ul>
           </article>
         </div>
+      </section>
 
-        <div class="cta-row" style="margin-top:1rem;">
-          <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Kinderkonzept jetzt gemeinsam aufsetzen</a>
+      <section id="kontakt">
+        <div class="kontakt-box">
+          <h2>Jetzt euer Kinderkonzept persönlich ordnen</h2>
+          <p>Wir schauen gemeinsam, welcher Schutz fürs Kind im Alltag wirklich sinnvoll ist, wie Gesundheit sauber abgesichert wird und wie ein früher Sparstart sinnvoll aufgebaut werden kann.</p>
+          <div class="kontakt-btn-row">
+            <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Kinderkonzept jetzt gemeinsam aufsetzen</a>
+            <a href="https://wa.me/4915141678134" target="_blank" rel="noopener" class="btn-wa">Jonas via WhatsApp</a>
+            <a href="https://wa.me/4917663796605" target="_blank" rel="noopener" class="btn-secondary">Timo via WhatsApp</a>
+          </div>
+          <div class="kontakt-mini-row">
+            <a href="tel:+4915141678134" class="kontakt-mini-link">Jonas: 0151 41678134</a>
+            <span style="color:var(--border);">|</span>
+            <a href="tel:+4917663796605" class="kontakt-mini-link">Timo: 0176 63796605</a>
+            <span style="color:var(--border);">|</span>
+            <a href="leistung.html" class="kontakt-mini-link">Alle Leistungen →</a>
+          </div>
         </div>
       </section>
     </main>
