@@ -1469,6 +1469,57 @@
       margin-bottom: 0.45rem;
     }
 
+    .kontakt-box {
+      background: linear-gradient(135deg, #e0f2fe, #fef3c7);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem 1.4rem 1.7rem;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    .kontakt-box h2 {
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+      font-size: 1.3rem;
+    }
+
+    .kontakt-box p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .kontakt-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .kontakt-mini-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .kontakt-mini-link {
+      font-size: 0.82rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .kontakt-mini-link:hover {
+      text-decoration: underline;
+    }
+
     .hidden { display: none; }
 
     footer {
@@ -1514,11 +1565,14 @@
       }
       .contact-strip { grid-template-columns: 1fr; }
       .cta-row,
+      .kontakt-btn-row,
+      .kontakt-mini-row,
       .check-grid,
       .result-grid { grid-template-columns: 1fr; }
       .cta-row { flex-direction: column; align-items: stretch; }
       .cta-row a,
       .btn-outline,
+      .kontakt-mini-link,
       .primary-link { width: 100%; justify-content: center; }
       .toggle-inline { min-width: 148px; }
       .precheck-input-grid,
@@ -1590,12 +1644,10 @@
             <h2 class="menu-section-title">Unternehmer &amp; Selbstständig</h2>
             <ul class="menu-section-links">
               <li><a href="liquiditaet.html">Liquidität</a></li>
-              <li><a href="mitarbeiter-benefits.html">Mitarbeiter Benefits</a></li>
+              <li><a href="mitarbeiter-benefits.html">Betriebliche Krankenversicherung</a></li>
               <li><a href="energie.html">Energie</a></li>
-              <li><a href="unternehmer-absicherung.html">Unternehmer absichern</a></li>
-              <li><a href="vertraege-optimieren.html">Verträge optimieren</a></li>
-              <li><a href="ruerup.html">Ruerup</a></li>
-              <li><a href="immobilien-finanzierung.html" class="active">Immobilien &amp; Finanzierung</a></li>
+              <li><a href="betriebliche-sachversicherung.html">Betriebliche Sachversicherungen</a></li>
+              <li><a href="ruerup.html">Rürup</a></li>
             </ul>
           </section>
           <section class="menu-section">
@@ -2056,7 +2108,7 @@
                 <li>Passt der Zeitpunkt der Zuteilung zu eurer Restschuld?</li>
                 <li>Ist die monatliche Gesamtbelastung in beiden Phasen tragbar?</li>
               </ul>
-              <p class="small-note" style="margin-top:0.55rem; font-size:0.88rem;">Entscheidend ist also nicht "Bausparer ja oder nein", sondern: Fuer welchen Zeitpunkt, welche Restschuld und welche Zinsannahme soll er genutzt werden?</p>
+              <p class="small-note" style="margin-top:0.55rem; font-size:0.88rem;">Entscheidend ist also nicht "Bausparer ja oder nein", sondern: Für welchen Zeitpunkt, welche Restschuld und welche Zinsannahme soll er genutzt werden?</p>
             </details>
           </div>
         </div>
@@ -2094,9 +2146,24 @@
             </ul>
           </article>
         </div>
+      </section>
 
-        <div class="cta-row" style="margin-top:1rem;">
-          <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Immobilienfinanzierung gemeinsam sortieren</a>
+      <section id="kontakt">
+        <div class="kontakt-box">
+          <h2>Jetzt eure Immobilienfinanzierung persönlich sortieren</h2>
+          <p>Wir schauen gemeinsam, welcher Kaufpreis wirklich tragbar ist, wie die Nebenkosten sauber eingeplant werden und welche Zinsstrategie zu eurer Lebensphase passt.</p>
+          <div class="kontakt-btn-row">
+            <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Immobilienfinanzierung gemeinsam sortieren</a>
+            <a href="https://wa.me/4915141678134" target="_blank" rel="noopener" class="btn-wa">Jonas via WhatsApp</a>
+            <a href="https://wa.me/4917663796605" target="_blank" rel="noopener" class="btn-secondary">Timo via WhatsApp</a>
+          </div>
+          <div class="kontakt-mini-row">
+            <a href="tel:+4915141678134" class="kontakt-mini-link">Jonas: 0151 41678134</a>
+            <span style="color:var(--border);">|</span>
+            <a href="tel:+4917663796605" class="kontakt-mini-link">Timo: 0176 63796605</a>
+            <span style="color:var(--border);">|</span>
+            <a href="leistung.html" class="kontakt-mini-link">Alle Leistungen →</a>
+          </div>
         </div>
       </section>
     </main>
@@ -2264,8 +2331,8 @@
         if (price <= 200000) return "solide kleine Wohnung";
         if (price <= 350000) return "gute Eigentumswohnung";
         if (price <= 500000) return "Reihenhaus realistisch";
-        if (price <= 750000) return "solides Haus moeglich";
-        return "gehobenes Objekt moeglich";
+        if (price <= 750000) return "solides Haus möglich";
+        return "gehobenes Objekt möglich";
       }
 
       function collectVorcheck() {
@@ -2390,7 +2457,7 @@
             calcAmpelStatus.textContent = "Nicht sinnvoll";
           }
           if (calcAmpelText) {
-            calcAmpelText.textContent = "Es bleibt aktuell keine tragbare Monatsrate uebrig.";
+            calcAmpelText.textContent = "Es bleibt aktuell keine tragbare Monatsrate übrig.";
           }
           if (calcObjectType) {
             calcObjectType.textContent = "Objekt-Feeling: kein realistischer Kaufpreis ableitbar.";
@@ -2449,7 +2516,7 @@
         if (leistbareMonatsrate === 0) {
           status = "Nicht sinnvoll";
           statusClass = "bad";
-          ampelText = "Es bleibt aktuell keine tragbare Monatsrate uebrig.";
+          ampelText = "Es bleibt aktuell keine tragbare Monatsrate übrig.";
         }
 
         calcOutPrice.textContent = toCurrency(maxKaufpreis);
