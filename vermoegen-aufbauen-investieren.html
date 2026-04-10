@@ -9,18 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --primary:#4a787d;
-      --accent:#f4be69;
-      --text:#111111;
+      --primary:#2e6f80;
+      --accent:#f0b85c;
+      --text:#111827;
       --muted:#4b5563;
       --bg:#f4f8f8;
       --bg-soft:#f9fbfb;
-      --border:#e5e7eb;
-      --wa:#25d366;
+      --border:#d9e2ec;
+      --wa:#22c55e;
       --teal:#10b981;
       --blue:#3b82f6;
-      --rose:#f43f5e;
-      --violet:#8b5cf6;
+      --rose:#f97316;
+      --violet:#2e6f80;
       --shadow:0 10px 25px rgba(15,23,42,.06);
       --shadowStrong:0 18px 45px rgba(15,23,42,.12);
     }
@@ -30,7 +30,7 @@
     body{
       margin:0;
       font-family:"Arimo",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:radial-gradient(circle at top,#fff7d1 0,#eef7ff 35%,#fdf2f8 100%);
+      background:radial-gradient(circle at top,#fef3c7 0,#f4f8f8 35%,#dbeafe 100%);
       color:var(--text);
       line-height:1.6;
     }
@@ -84,11 +84,11 @@
     .menu-section-links a:hover{background:#f3f4f6;}
     .menu-section-links a.active{border-left-color:var(--accent);background:rgba(244,190,105,.08);}
 
-    header.hero{padding:2rem 1.4rem 2.2rem;border-bottom:1px solid var(--border);background:radial-gradient(circle at top left,#eff6ff 0,#ffffff 40%,#fdf2f8 100%);}
+    header.hero{padding:2.2rem 1.6rem 2.1rem;border-bottom:1px solid var(--border);background:radial-gradient(circle at top left,#fff7ed 0,#ffffff 45%,#e0f2fe 100%);}
     .hero-inner{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;}
     .hero-text{flex:1 1 280px;min-width:0;}
     .hero-label{display:inline-flex;align-items:center;gap:.4rem;padding:.15rem .65rem;border-radius:999px;border:1px solid rgba(148,163,184,.8);font-size:.8rem;color:var(--muted);margin-bottom:.6rem;background:rgba(255,255,255,.9);}
-    .hero-label .dot{width:6px;height:6px;border-radius:999px;background:var(--violet);}
+    .hero-label .dot{width:6px;height:6px;border-radius:999px;background:var(--accent);}
     .hero h1{font-family:"Raleway",system-ui,sans-serif;font-weight:800;font-size:2rem;margin:0 0 .7rem;letter-spacing:.02em;}
     .hero h1 strong{color:var(--primary)}
     .hero-lead{margin:0 0 1rem;color:var(--muted);max-width:38rem;font-size:.98rem;}
@@ -104,8 +104,8 @@
     .btn-forms{background:var(--primary);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.12);}
     .btn-primary:hover,.btn-secondary:hover,.btn-wa:hover,.btn-gold:hover,.btn-forms:hover{filter:brightness(1.03);transform:translateY(-1px);}
 
-    .hero-photo{flex:0 0 450px;position:relative;display:flex;justify-content:center;align-items:center;min-width:360px;min-height:420px;}
-    .hero-photo::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,#93c5fd 0,#ffffff 52%,#fbcfe8 100%);opacity:.62;top:0;left:50%;transform:translateX(-50%);z-index:0;}
+    .hero-photo{flex:0 0 450px;position:relative;display:flex;justify-content:center;align-items:center;min-width:360px;min-height:430px;}
+    .hero-photo::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,#f4be69 0,#ffffff 52%,#cfe7ff 100%);opacity:.62;top:0;left:50%;transform:translateX(-50%);z-index:0;}
     .hero-people{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end;gap:16px;padding:28px 24px 112px;z-index:1;}
     .hero-person{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;z-index:1;}
     .hero-image-box{width:210px;height:290px;display:flex;align-items:flex-end;justify-content:center;}
@@ -115,26 +115,24 @@
     .hero-person.timo{left:-40px;top:-8px;}
     .hero-person.timo .hero-image-box img{width:168px;max-height:225px;transform:translateY(12px);}
 
-    .hero-card{position:absolute;bottom:18px;right:57px;background:#fff;padding:18px 30px;border-radius:22px;border:1px solid rgba(148,163,184,.6);box-shadow:0 8px 20px rgba(15,23,42,.18);z-index:3;width:333px;color:var(--muted);}
-    .hero-card h3{margin:0 0 10px;color:var(--primary);font-family:"Raleway",system-ui,sans-serif;font-size:.92rem;text-align:center;font-weight:800;}
-    .hero-card ul{display:flex;flex-direction:column;align-items:center;margin:0;padding:0;list-style:none;}
-    .hero-card li{display:flex;justify-content:center;align-items:flex-start;gap:.55rem;margin-bottom:.3rem;font-size:.82rem;text-align:center;}
-    .hero-card li::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--violet);margin-top:.42rem;flex:0 0 8px;}
+    .hero-card{position:absolute;bottom:-12px;right:52px;background:#fff;padding:16px 22px;border-radius:20px;border:1px solid rgba(148,163,184,.6);box-shadow:0 8px 20px rgba(15,23,42,.18);z-index:3;width:338px;color:var(--muted);}
+    .hero-card h3{margin:0 0 8px;color:var(--primary);font-family:"Raleway",system-ui,sans-serif;font-size:.9rem;text-align:center;font-weight:800;}
+    .hero-card ul{margin:0;padding-left:1.1rem;font-size:.83rem;}
 
     .contact-strip{margin-top:1rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;}
     .contact-card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:16px;padding:.9rem 1rem;box-shadow:var(--shadow);}
     .contact-name{font-family:"Raleway",system-ui,sans-serif;font-weight:800;color:var(--primary);margin-bottom:.25rem;font-size:1rem;}
     .contact-role{font-size:.84rem;color:var(--muted);margin-bottom:.45rem;}
     .contact-links{display:flex;flex-direction:column;gap:.28rem;font-size:.92rem;}
-    .contact-links a:hover{text-decoration:underline;}
+    .contact-links a:hover{color:var(--primary);text-decoration:underline;}
 
-    main{padding:1.8rem 1.4rem 2.4rem;flex:1;background:linear-gradient(to bottom,#ffffff 0,#f9fafb 100%);}
+    main{padding:1.8rem 1.6rem 2.3rem;flex:1;background:linear-gradient(to bottom,#ffffff 0,#f9fafb 100%);}
     section{margin-bottom:2.1rem;}
     h2{font-family:"Raleway",system-ui,sans-serif;margin:0 0 .4rem;font-size:1.45rem;color:var(--primary);font-weight:800;}
     .section-subtitle{margin-bottom:1rem;color:var(--muted);font-size:.92rem;}
 
     .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
-    .card{background:linear-gradient(to bottom,#fff,var(--bg-soft));border-radius:16px;padding:1rem 1.05rem;border:2px solid rgba(74,120,125,.20);box-shadow:var(--shadow);font-size:.92rem;color:var(--muted);}
+    .card{background:#fff;border-radius:20px;padding:1.1rem 1.15rem;border:1px solid var(--border);box-shadow:var(--shadow);font-size:.92rem;color:var(--muted);}
     .card-title{font-family:"Raleway",system-ui,sans-serif;font-weight:800;margin-bottom:.35rem;color:var(--text);font-size:1rem;}
     .card ul{margin:.2rem 0 0;padding-left:1.1rem;}
     .card li{margin-bottom:.2rem;}
@@ -143,12 +141,12 @@
     .mini-stat{border-radius:14px;padding:.85rem 1rem;box-shadow:var(--shadow);border:1px solid var(--border);}
     .mini-stat.teal{background:linear-gradient(135deg,#ecfeff,#d1fae5);}
     .mini-stat.blue{background:linear-gradient(135deg,#eff6ff,#dbeafe);}
-    .mini-stat.rose{background:linear-gradient(135deg,#fff1f2,#ffe4e6);}
-    .mini-stat.violet{background:linear-gradient(135deg,#f5f3ff,#ede9fe);}
+    .mini-stat.rose{background:linear-gradient(135deg,#fff7ed,#ffedd5);}
+    .mini-stat.violet{background:linear-gradient(135deg,#eef6ff,#dbeafe);}
     .mini-stat .label{font-size:.78rem;color:#334155;margin-bottom:.2rem;}
     .mini-stat .value{font-family:"Raleway",sans-serif;font-weight:800;font-size:1.2rem;line-height:1.2;color:#0f172a;}
 
-    .rechner-box{background:linear-gradient(135deg,#eff6ff,#fdf4ff 50%,#ecfeff);border:2px solid rgba(139,92,246,.20);border-radius:20px;padding:1.4rem;box-shadow:var(--shadowStrong);}
+    .rechner-box{background:linear-gradient(to right,#fff7ed 0,#ffffff 45%,#e0f2fe 100%);border:1px solid var(--border);border-radius:20px;padding:1.4rem;box-shadow:var(--shadowStrong);}
     .rechner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;}
     .field{display:flex;flex-direction:column;gap:.3rem;}
     .field label{font-size:.82rem;font-weight:700;color:var(--primary);}
@@ -219,20 +217,20 @@
       .topbar{padding-inline:1rem;}
       .menu-panel{width:100vw;}
       .menu-text{display:none;}
-      header.hero{padding:1.2rem 1rem 1.5rem;}
+      header.hero{padding:2rem 1rem 2rem;}
       main{padding:1.6rem 1rem 2.2rem;}
       .hero-inner{flex-direction:column-reverse;align-items:stretch;}
       .hero h1{font-size:1.45rem;}
       .hero-lead{font-size:.92rem;}
       .hero-photo{width:100%;flex:none;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:stretch;position:relative;overflow:hidden;}
-      .hero-photo::before{width:200px;height:200px;}
+      .hero-photo::before{width:300px;height:300px;}
       .hero-people{position:relative;inset:auto;display:flex;justify-content:center;align-items:flex-end;padding:24px 16px 0;gap:0;}
       .hero-image-box{width:auto;height:auto;}
       .hero-person.jonas{left:10px;top:0;}
       .hero-person.jonas .hero-image-box img{width:min(63vw,231px);max-height:300px;transform:none;}
       .hero-person.timo{left:-50px;top:0;}
       .hero-person.timo .hero-image-box img{width:min(31vw,116px);max-height:156px;transform:none;}
-      .hero-card{position:static;right:auto;bottom:auto;width:auto;margin:-11px 45px 0;border-radius:16px;padding:14px 20px;}
+      .hero-card{position:static;right:auto;bottom:auto;width:min(92vw,340px);margin:0 auto;border-radius:16px;padding:14px 18px;transform:none;}
       .cta-row{flex-direction:column;align-items:stretch;}
       .cta-row a{width:100%;}
       .contact-strip{grid-template-columns:1fr;}
@@ -296,12 +294,10 @@
             <h2 class="menu-section-title">Unternehmer &amp; Selbstständig</h2>
             <ul class="menu-section-links">
               <li><a href="liquiditaet.html">Liquidität</a></li>
-              <li><a href="mitarbeiter-benefits.html">Mitarbeiter Benefits</a></li>
+              <li><a href="mitarbeiter-benefits.html">Betriebliche Krankenversicherung</a></li>
               <li><a href="energie.html">Energie</a></li>
-              <li><a href="unternehmer-absicherung.html">Unternehmer absichern</a></li>
-              <li><a href="vertraege-optimieren.html">Verträge optimieren</a></li>
+              <li><a href="betriebliche-sachversicherung.html">Betriebliche Sachversicherungen</a></li>
               <li><a href="ruerup.html">Rürup</a></li>
-              <li><a href="immobilien-finanzierung.html">Immobilien &amp; Finanzierung</a></li>
             </ul>
           </section>
           <section class="menu-section">
@@ -318,7 +314,7 @@
     <header class="hero">
       <div class="hero-inner">
         <div class="hero-text animate-on-scroll">
-          <div class="hero-label"><span class="dot"></span>Investment-Strategie für Angestellte</div>
+          <div class="hero-label"><span class="dot"></span>Investment · Sparplan · Vermögensaufbau</div>
           <h1>Vermögen aufbauen mit <strong>Plan statt Zufall</strong></h1>
           <p class="hero-lead">
             Schon mit kleinen Monatsbeträgen kannst du durch den <strong>Zinseszinseffekt</strong> über Jahre ein starkes Vermögen aufbauen.
@@ -358,16 +354,16 @@
           <div class="contact-name">Jonas Plener</div>
           <div class="contact-role">Vermögensberater bei der Deutschen Vermögensberatung</div>
           <div class="contact-links">
-            <a href="tel:+4915141678134">📞 0151 41678134</a>
-            <a href="mailto:Jonas.Plener@dvag.de">✉️ Jonas.Plener@dvag.de</a>
+            <a href="tel:+4915141678134">0151 41678134</a>
+            <a href="mailto:Jonas.Plener@dvag.de">Jonas.Plener@dvag.de</a>
           </div>
         </div>
         <div class="contact-card">
           <div class="contact-name">Timo Hügel</div>
           <div class="contact-role">Vermögensberater bei der Deutschen Vermögensberatung</div>
           <div class="contact-links">
-            <a href="tel:+4917663796605">📞 0176 63796605</a>
-            <a href="mailto:Timo.Huegel@dvag.de">✉️ Timo.Huegel@dvag.de</a>
+            <a href="tel:+4917663796605">0176 63796605</a>
+            <a href="mailto:Timo.Huegel@dvag.de">Timo.Huegel@dvag.de</a>
           </div>
         </div>
       </div>
