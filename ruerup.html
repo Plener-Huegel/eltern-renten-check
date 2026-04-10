@@ -3,897 +3,1271 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rürup / Basisrente – Steuer- & Vorsorge-Check · Jonas Plener</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&family=Raleway:wght@600;700;800&display=swap" rel="stylesheet" />
-
+  <title>Rürup - Steuervorteil und Altersvorsorge - Jonas Plener &amp; Timo Hügel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --primary:#4a787d;
-      --accent:#f4be69;
-      --text:#111111;
-      --muted:#4b5563;
-      --border:#e5e7eb;
-      --wa:#25d366;
-
-      --good:#16a34a;
-      --warn:#f59e0b;
-      --bad:#dc2626;
-
-      --shadow: 0 10px 25px rgba(15,23,42,.06);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Arimo", system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #fef3c7 0, #f4f8f8 35%, #dbeafe 100%);
-      color:var(--text);
-      line-height:1.6;
-    }
-    a{color:inherit;text-decoration:none}
-    .page{
-      max-width:1100px;margin:0 auto;min-height:100vh;background:#fff;
-      box-shadow:0 12px 35px rgba(15,23,42,.12);
-      display:flex;flex-direction:column;
+    :root {
+      --primary: #2e6f80;
+      --accent: #f0b85c;
+      --text: #111827;
+      --muted: #4b5563;
+      --border: #d9e2ec;
+      --soft-safe: #ecfdf5;
+      --soft-warn: #fff7ed;
+      --wa: #22c55e;
+      --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
     }
 
-    /* Topbar */
-    .topbar{
-      position:relative;
-      display:flex;align-items:center;justify-content:space-between;gap:1rem;
-      padding:.85rem 1.8rem;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(to right,#ffffff,#fef3c7);
-    }
-    .topbar-left{display:flex;align-items:center;gap:.75rem;min-width:0}
-    .topbar-portrait img{
-      width:54px;height:54px;border-radius:50%;object-fit:cover;display:block;
-      box-shadow:0 4px 10px rgba(15,23,42,.25);
-    }
-    .topbar-title{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight:800;letter-spacing:.03em;font-size:.95rem;text-transform:uppercase;
-      color:var(--primary);
-    }
-    .topbar-tagline{font-size:.8rem;color:var(--muted)}
-    .topbar-right{
-      font-size:.8rem;color:var(--muted);text-align:right;padding-right:54px;white-space:nowrap;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-    /* Burger */
-    .burger{
-      position:absolute;top:10px;right:10px;
-      width:46px;height:46px;border-radius:999px;
-      border:1px solid rgba(148,163,184,.9);
-      background:#fff;
-      box-shadow:0 8px 20px rgba(15,23,42,.12);
-      display:grid;place-items:center;cursor:pointer;z-index:1000;
-    }
-    .burger:active{transform:translateY(1px)}
-    .burger-lines{width:20px;height:14px;position:relative}
-    .burger-lines span{
-      position:absolute;left:0;right:0;height:2px;border-radius:999px;background:var(--primary);
-    }
-    .burger-lines span:nth-child(1){top:0}
-    .burger-lines span:nth-child(2){top:6px}
-    .burger-lines span:nth-child(3){top:12px}
-
-    .menu-backdrop{
-      position:fixed;inset:0;background:rgba(15,23,42,.45);
-      opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:1200;
-    }
-    .menu-panel{
-      position:fixed;top:0;right:0;height:100%;
-      width:min(360px,92vw);
-      background:#fff;
-      box-shadow:-18px 0 40px rgba(15,23,42,.18);
-      transform:translateX(105%);
-      transition:transform .25s ease;
-      z-index:1300;
-      display:flex;flex-direction:column;
-    }
-    .menu-backdrop.open{opacity:1;pointer-events:auto}
-    .menu-panel.open{transform:translateX(0)}
-    .menu-head{
-      padding:1rem 1rem .8rem;
-      border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;gap:.75rem;
-      background:linear-gradient(to right,#ffffff,#fef3c7);
-    }
-    .menu-head .ttl{font-family:Raleway,system-ui,sans-serif;font-weight:800;color:var(--primary)}
-    .menu-close{
-      width:40px;height:40px;border-radius:999px;
-      border:1px solid rgba(148,163,184,.9);
-      background:#fff;cursor:pointer;display:grid;place-items:center;
-    }
-    .menu-body{padding:.6rem 1rem 1rem;overflow:auto}
-    .menu-group{
-      margin:.9rem 0;border:1px solid rgba(148,163,184,.55);
-      border-radius:14px;overflow:hidden;background:linear-gradient(to bottom,#fff,#fbfdff);
-    }
-    .menu-group button.menu-toggle{
-      width:100%;text-align:left;border:0;background:transparent;
-      padding:.85rem .95rem;cursor:pointer;
-      display:flex;align-items:center;justify-content:space-between;
-      font-family:Raleway,system-ui,sans-serif;font-weight:800;color:#111;
-    }
-    .menu-group button .chev{color:var(--primary);font-weight:900}
-    .menu-sub{
-      border-top:1px solid rgba(148,163,184,.45);
-      display:none;padding:.35rem .5rem .6rem;
-    }
-    .menu-group.open .menu-sub{display:block}
-    .menu-sub a{
-      display:block;padding:.55rem .55rem;border-radius:10px;
-      color:var(--muted);font-size:.95rem;
-    }
-    .menu-sub a:hover{background:#f3f6f8;color:#111}
-    .menu-sub a strong{color:var(--primary)}
-    .menu-foot{
-      margin-top:auto;padding:1rem;border-top:1px solid var(--border);
-      background:#f9fafb;display:grid;gap:.6rem;
-    }
-    .menu-foot .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:.92rem 1.2rem;border-radius:999px;
-      font-weight:900;font-size:.98rem;border:0;cursor:pointer;
-      white-space:nowrap;text-align:center;text-decoration:none;
-      box-shadow:0 10px 22px rgba(15,23,42,.12);
-    }
-    .menu-foot .btn-gold{background:var(--accent);color:#1f2933}
-    .menu-foot .btn-wa{background:var(--wa);color:#fff}
-
-    /* Hero */
-    header.hero{
-      padding:1.9rem 1.4rem .9rem;
-      border-bottom:1px solid var(--border);
-      background: radial-gradient(circle at top left, #fdf4e6 0, #ffffff 40%, #e0f2fe 100%);
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-label{
-      display:inline-flex;align-items:center;gap:.45rem;
-      padding:.15rem .7rem;border-radius:999px;
-      border:1px solid rgba(148,163,184,.8);
-      font-size:.82rem;color:var(--muted);
-      background:rgba(255,255,255,.9);
-      margin-bottom:.6rem;
-    }
-    .hero-label .dot{width:6px;height:6px;border-radius:999px;background:var(--accent)}
-    .hero h1{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight:800;font-size:1.85rem;margin:0 0 .55rem;
-    }
-    .hero-lead{margin:0;color:var(--muted);max-width:62rem;font-size:.98rem}
-    .hero-lead strong{color:var(--primary);font-weight:800}
-
-    /* HERO: Bild + Ansprechpartner-Box */
-    .hero-inner{
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap: 1.2rem;
-      align-items: end;
-    }
-    .hero-left{min-width:0}
-    .hero-right{
-      position: relative;
-      display:flex;
-      justify-content:center;
-      align-items:flex-end;
-      min-height: 360px;
-    }
-    .hero-portrait{
-      width: min(320px, 86%);
-      height: auto;
-      display:block;
-      filter: drop-shadow(0 18px 28px rgba(15,23,42,.18));
-      margin-bottom: 56px;
-    }
-    .partner-card{
-      position:absolute;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: min(520px, 92%);
-      background:#fff;
-      border: 1px solid rgba(148,163,184,.65);
-      border-radius: 22px;
-      box-shadow: 0 14px 30px rgba(15,23,42,.14);
-      padding: 1.05rem 1.15rem;
-    }
-    .partner-title{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight: 800;
-      color: var(--primary);
-      text-align:center;
-      margin: 0 0 .55rem;
-    }
-    .partner-list{
-      list-style: none;
-      padding: 0;
+    body {
       margin: 0;
-      display:grid;
-      gap: .35rem;
+      font-family: "Arimo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fef3c7 0, #f4f8f8 35%, #dbeafe 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #fff;
+      box-shadow: 0 12px 35px rgba(15, 23, 42, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to right, #ffffff, #fef3c7);
+      gap: 1rem;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .topbar-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-avatars img {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+      border: 2px solid #fff;
+      background: #fff;
+    }
+
+    .topbar-avatars img + img { margin-left: -10px; }
+
+    .topbar-title {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .topbar-tagline {
+      font-size: 0.8rem;
       color: var(--muted);
-      font-size: .95rem;
     }
-    .partner-list li{
-      display:flex;
-      align-items:flex-start;
-      gap:.6rem;
+
+    .menu-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin-left: auto;
     }
-    .partner-dot{
-      width: 8px;
-      height: 8px;
+
+    .menu-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .burger-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .burger-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .burger-lines span {
+      display: block;
+      width: 22px;
+      height: 2.5px;
+      background: #4a787d;
+      border-radius: 999px;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .burger-btn[aria-expanded="true"] .burger-lines span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger-btn[aria-expanded="true"] .burger-lines span:nth-child(2) { opacity: 0; }
+    .burger-btn[aria-expanded="true"] .burger-lines span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+      z-index: 40;
+    }
+
+    .menu-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .menu-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: min(420px, 80vw);
+      background: #fff;
+      box-shadow: -8px 0 20px rgba(0, 0, 0, 0.15);
+      transform: translateX(100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 50;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-panel.open { transform: translateX(0); }
+
+    .menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .menu-header-title {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .menu-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--primary);
+      font-size: 1.4rem;
+      padding: 0;
+    }
+
+    .menu-content { flex: 1; padding: 0.8rem 0; }
+    .menu-section { padding: 0; margin: 0; }
+
+    .menu-section-title {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.75rem;
+      color: var(--primary);
+      padding: 0.8rem 1.2rem 0.4rem;
+      margin: 0;
+    }
+
+    .menu-section-links {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-section-links a {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.92rem;
+      color: #1f2937;
+      border-left: 3px solid transparent;
+    }
+
+    .menu-section-links a:hover { background: #f3f4f6; }
+    .menu-section-links a.active { border-left-color: var(--accent); background: rgba(244, 190, 105, 0.08); }
+
+    header.hero {
+      padding: 2.2rem 1.6rem 2.1rem;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #fff7ed 0, #ffffff 45%, #e0f2fe 100%);
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-text { flex: 1 1 260px; min-width: 0; }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-label .dot {
+      width: 6px;
+      height: 6px;
       border-radius: 999px;
       background: var(--accent);
-      margin-top: .45rem;
-      flex: 0 0 auto;
     }
 
-    main{
-      padding:1.6rem 1.4rem 2.4rem;
-      background:linear-gradient(to bottom,#fff 0,#f9fafb 100%);
-      flex:1;
-    }
-    section{margin-bottom:1.6rem}
-    h2{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight:800;font-size:1.45rem;color:var(--primary);
-      margin:0 0 .4rem;
-    }
-    .section-sub{margin:0 0 1rem;color:var(--muted);font-size:.92rem;max-width:62rem}
-
-    /* Cards / Layout */
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
-    .card{
-      background:linear-gradient(to bottom,#fff,#fbfdff);
-      border-radius:18px;
-      border:2px solid rgba(74,120,125,.18);
-      box-shadow:var(--shadow);
-      padding:1rem 1.05rem 1.05rem;
-    }
-    .card-title{
-      font-family:"Raleway",system-ui,sans-serif;
-      font-weight:800;font-size:1.05rem;margin:0 0 .4rem;color:#111;
-    }
-    .card p{margin:.35rem 0 0;color:var(--muted);font-size:.92rem}
-    .info{
-      margin-top:.75rem;
-      padding:.75rem .85rem;
-      border-radius:16px;
-      border:1px solid rgba(148,163,184,.7);
-      background:#fff;
-      color:var(--muted);
-      font-size:.9rem;
-    }
-    .info strong{color:#111}
-
-    /* Rechner */
-    .calc-wrap{
-      margin-top:.6rem;
-      border-radius:18px;
-      padding:1.1rem 1.05rem 1.15rem;
-      background:linear-gradient(to right, rgba(254,243,199,.8) 0, #ffffff 45%, rgba(224,242,254,.8) 100%);
-      border:1px solid var(--border);
-      box-shadow:0 10px 25px rgba(15,23,42,.08);
-    }
-    .calc-grid{
-      display:grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-      gap:1rem;
-      align-items:start;
-    }
-    .field{margin-bottom:.7rem}
-    label{
-      display:block;font-size:.85rem;font-weight:900;margin-bottom:.25rem;color:#111;
-    }
-    input{
-      width:100%;
-      padding:.6rem .65rem;
-      border-radius:12px;
-      border:1px solid var(--border);
-      font-size:.92rem;
-      background:#fff;
-    }
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:.9rem 1.15rem;border-radius:999px;
-      font-weight:900;font-size:.95rem;border:0;cursor:pointer;
-      text-align:center;white-space:nowrap;
-      box-shadow:0 10px 22px rgba(15,23,42,.12);
-    }
-    .btn:hover{filter:brightness(1.02);transform:translateY(-1px)}
-    .btn-gold{background:var(--accent);color:#1f2933}
-    .btn-outline{background:#fff;border:1px solid rgba(148,163,184,.85);box-shadow:none;color:var(--primary)}
-    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-
-    .calc-result{
-      background:rgba(255,255,255,.92);
-      border-radius:16px;
-      padding:1rem;
-      border:1px solid var(--border);
-      color:var(--muted);
-      font-size:.92rem;
-    }
-    .calc-expl{margin:0 0 .65rem}
-    .values{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap:.65rem;
-      margin-top:.2rem;
-    }
-    .val{
-      padding:.65rem .75rem;border-radius:14px;border:2px solid var(--border);
-      background:#fff;box-shadow:0 8px 18px rgba(15,23,42,.06);
-    }
-    .val .k{font-size:.8rem;color:var(--muted);margin-bottom:.1rem}
-    .val .v{font-weight:900;font-size:1.05rem;color:#111}
-    .val.warn{border-color:rgba(245,158,11,.55);background:#fef3c7}
-    .val.good{border-color:rgba(22,163,74,.55);background:#dcfce7}
-
-    /* Donut */
-    .donut-wrap{
-      display:grid;
-      grid-template-columns: 160px 1fr;
-      gap:1rem;
-      align-items:center;
-      margin-top:.85rem;
-      padding:.85rem .9rem;
-      border-radius:16px;
-      border:1px solid rgba(148,163,184,.65);
-      background:linear-gradient(to right, rgba(254,243,199,.55), rgba(224,242,254,.55));
-    }
-    .donut{
-      width:160px;height:160px;border-radius:50%;
-      background:conic-gradient(
-        var(--accent) 0deg,
-        var(--accent) var(--taxAngle),
-        rgba(74,120,125,.75) var(--taxAngle),
-        rgba(74,120,125,.35) 360deg
-      );
-      position:relative;
-      box-shadow:0 10px 20px rgba(15,23,42,.10);
-      border:1px solid rgba(148,163,184,.55);
-    }
-    /* ===== FIX: Loch + Text-Zentrierung IM Loch ===== */
-    .donut::after{
-      content:"";
-      position:absolute;
-      inset:18px;
-      background:#fff;
-      border-radius:50%;
-      box-shadow: inset 0 0 0 1px rgba(148,163,184,.35);
-      z-index:1; /* wichtig */
-    }
-    .donut-center{
-      position:absolute;
-      inset:18px;              /* wichtig: exakt im Loch */
-      z-index:2;
-
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-
-      text-align:center;
-      padding:10px;
-      gap:6px;
-    }
-    .donut-center span{
-      font-family:Raleway,system-ui,sans-serif;
-      font-weight:900;
-      font-size:28px;
-      line-height:1;
-      color:#111;
-      white-space:nowrap;
-    }
-    .donut-center small{
-      display:block;
-      font-family:Arimo,system-ui,sans-serif;
-      font-weight:800;
-      font-size:13px;
-      line-height:1.15;
-      color:#6b7280;
-      max-width:120px;         /* passt garantiert */
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .legend{
-      display:grid;
-      gap:.45rem;
-      color:#6b7280;
-      font-size:.88rem;
-    }
-    .chip{display:inline-flex;align-items:center;gap:.5rem}
-    .dot{width:10px;height:10px;border-radius:999px;display:inline-block}
-    .dot.tax{background:var(--accent)}
-    .dot.net{background:var(--primary)}
-    .hintline{
-      margin-top:.5rem;
-      color:#6b7280;
-      font-size:.82rem;
+    .hero h1 {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      margin: 0 0 0.7rem;
+      letter-spacing: 0.02em;
     }
 
-    /* Mythen/Fakten */
-    .mf{
-      border:1px solid rgba(148,163,184,.55);
-      border-radius:16px;
-      background:#fff;
-      overflow:hidden;
-      box-shadow:0 8px 18px rgba(15,23,42,.06);
-    }
-    .mf-row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:0;
-      border-top:1px solid rgba(148,163,184,.35);
-    }
-    .mf-row:first-child{border-top:0}
-    .mf-cell{padding:.9rem .95rem}
-    .mf-tag{
-      display:inline-flex;align-items:center;gap:.45rem;
-      font-weight:900;font-size:.78rem;border-radius:999px;
-      padding:.15rem .6rem;border:1px solid rgba(148,163,184,.65);
-      background:linear-gradient(to right, rgba(254,243,199,.55), rgba(224,242,254,.35));
-      color:#111;
-      margin-bottom:.35rem;
-    }
-    .mf-cell p{margin:.2rem 0 0;color:var(--muted);font-size:.92rem}
-    .mf-cell strong{color:#111}
+    .hero h1 strong { color: var(--primary); }
 
-    footer{
-      padding:1rem 1.4rem 1.3rem;
-      font-size:.78rem;color:#6b7280;
-      border-top:1px solid var(--border);
-      background:#f9fafb;
+    .hero-lead {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      max-width: 44rem;
+      font-size: 0.98rem;
     }
 
-    @media (max-width:768px){
-      .topbar{padding-inline:1rem}
-      .topbar-right{display:none}
-      header.hero{padding:1.55rem 1rem .75rem}
-      main{padding:1.4rem 1rem 2.1rem}
-      .hero h1{font-size:1.45rem}
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.8rem 0 1.2rem;
+    }
 
-      .hero-inner{grid-template-columns: 1fr; align-items:start}
-      .hero-right{min-height: 460px;}
-      .partner-card{bottom: 0;}
-      .hero-portrait{margin-bottom: 62px;}
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+    }
 
-      .calc-grid{grid-template-columns:1fr}
-      .row-2{grid-template-columns:1fr}
-      .btn{width:100%}
+    .badge .arrow { font-size: 0.9rem; color: var(--primary); }
 
-      .donut-wrap{grid-template-columns:1fr;justify-items:center;text-align:left}
-      .mf-row{grid-template-columns:1fr}
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .btn-primary, .btn-secondary, .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.7rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+      white-space: nowrap;
+      transition: transform 0.12s ease, filter 0.12s ease;
+      min-height: 54px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #1f2933;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-secondary, .btn-wa {
+      background: var(--wa);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-primary:hover, .btn-secondary:hover, .btn-wa:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    .hero-photo {
+      flex: 0 0 450px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 360px;
+      min-height: 430px;
+    }
+
+    .hero-photo::before {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f4be69 0, #ffffff 52%, #cfe7ff 100%);
+      opacity: 0.62;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+
+    .hero-people {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 28px 24px 118px;
+      z-index: 1;
+    }
+
+    .hero-person { display: flex; align-items: flex-end; }
+
+    .hero-image-box {
+      width: 210px;
+      height: 290px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .hero-image-box img {
+      height: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.16));
+    }
+
+    .hero-person.jonas { left: 52px; top: -8px; position: relative; }
+    .hero-person.jonas .hero-image-box img { width: 341px; max-height: 435px; transform: translateY(12px); }
+    .hero-person.timo { left: -40px; top: -8px; position: relative; }
+    .hero-person.timo .hero-image-box img { width: 168px; max-height: 225px; transform: translateY(12px); }
+
+    .hero-card {
+      position: absolute;
+      bottom: -12px;
+      right: 52px;
+      background: #fff;
+      padding: 16px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+      z-index: 3;
+      width: 338px;
+      color: var(--muted);
+    }
+
+    .hero-card h3 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-family: "Raleway", system-ui, sans-serif;
+      font-size: 0.9rem;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .hero-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.83rem;
+    }
+
+    main {
+      padding: 1.8rem 1.6rem 2.3rem;
+      flex: 1;
+      background: linear-gradient(to bottom, #ffffff 0, #f9fafb 100%);
+    }
+
+    section { margin-bottom: 2rem; }
+
+    h2 {
+      font-family: "Raleway", system-ui, sans-serif;
+      margin: 0 0 0.4rem;
+      font-size: 1.45rem;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    .stat-card {
+      border-radius: 18px;
+      padding: 1rem;
+      border: 1px solid transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card.blue {
+      background: linear-gradient(160deg, #eff6ff 0, #ffffff 85%);
+      border-color: #bfdbfe;
+    }
+
+    .stat-card.orange {
+      background: linear-gradient(160deg, #fff7ed 0, #ffffff 85%);
+      border-color: #fdba74;
+    }
+
+    .stat-card.green {
+      background: linear-gradient(160deg, #ecfdf5 0, #ffffff 85%);
+      border-color: #86efac;
+    }
+
+    .stat-number {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-size: 1.55rem;
+      line-height: 1;
+      font-weight: 800;
+      margin: 0 0 0.35rem;
+      color: var(--text);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .card, .priority-card, .service-card, .result-card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.1rem 1.15rem;
+    }
+
+    .card-title, .priority-title, .service-title, .result-title, .flow-title {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 800;
+      margin: 0 0 0.45rem;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .card p, .service-card p, .result-card p, .flow-step p {
+      margin: 0 0 0.5rem;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .card ul, .priority-card ul, .service-card ul {
+      margin: 0.2rem 0 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .priority-card {
+      background: linear-gradient(160deg, var(--soft-safe) 0, #ffffff 75%);
+      border-color: #bbf7d0;
+    }
+
+    .priority-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #1f2933;
+      font-weight: 800;
+      margin-bottom: 0.45rem;
+    }
+
+    .signal-card {
+      background: linear-gradient(160deg, var(--soft-warn) 0, #ffffff 80%);
+      border-color: #fed7aa;
+    }
+
+    .blue-card {
+      background: linear-gradient(160deg, #eef6ff 0, #ffffff 80%);
+      border-color: #bfdbfe;
+    }
+
+    .amber-card {
+      background: linear-gradient(160deg, #fff8e8 0, #ffffff 80%);
+      border-color: #fcd34d;
+    }
+
+    .green-card {
+      background: linear-gradient(160deg, #ecfdf5 0, #ffffff 80%);
+      border-color: #86efac;
+    }
+
+    .number-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 72px;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #0f172a;
+      background: rgba(240, 184, 92, 0.22);
+      margin: 0 0 0.55rem;
+    }
+
+    .highlight-box {
+      background: #fff7ed;
+      border-radius: 16px;
+      border: 1px solid #fed7aa;
+      padding: 0.95rem 1rem;
+      color: #7c2d12;
+      font-size: 0.92rem;
+      margin-top: 0.8rem;
+    }
+
+    .flow-diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .flow-step {
+      position: relative;
+      background: linear-gradient(160deg, #ffffff 0, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: 0.9rem;
+      top: 0.7rem;
+      font-size: 1.15rem;
+      color: rgba(46, 111, 128, 0.4);
+      font-weight: 800;
+    }
+
+    .flow-step:last-child::after { content: "✓"; }
+
+    .flow-kicker {
+      display: inline-flex;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(240, 184, 92, 0.2);
+      color: var(--primary);
+      font-size: 0.76rem;
+      font-weight: 800;
+      margin-bottom: 0.55rem;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .calculator-panel {
+      background: linear-gradient(160deg, #ffffff 0, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 1.1rem;
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      display: flex;
+      align-items: flex-end;
+      font-size: 0.83rem;
+      color: var(--primary);
+      font-weight: 700;
+      min-height: 3.7rem;
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.85rem 0.9rem;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      min-height: 62px;
+    }
+
+    .field.span-2 {
+      grid-column: 1 / -1;
+      max-width: calc(50% - 0.45rem);
+    }
+
+    .field-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+
+    .result-stack {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .result-card strong {
+      display: block;
+      font-family: "Raleway", system-ui, sans-serif;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .result-card.is-positive {
+      background: linear-gradient(160deg, #ecfdf5 0, #ffffff 85%);
+      border-color: #86efac;
+    }
+
+    .result-card.is-caution {
+      background: linear-gradient(160deg, #fff7ed 0, #ffffff 85%);
+      border-color: #fdba74;
+    }
+
+    .result-card.is-info {
+      background: linear-gradient(160deg, #eff6ff 0, #ffffff 85%);
+      border-color: #bfdbfe;
+    }
+
+    .contact-strip {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.9rem 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-name {
+      font-family: "Raleway", system-ui, sans-serif;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+
+    .contact-role {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      font-size: 0.92rem;
+    }
+
+    .contact-links a:hover { color: var(--primary); text-decoration: underline; }
+
+    footer {
+      padding: 1rem 1.6rem 1.4rem;
+      font-size: 0.78rem;
+      color: #6b7280;
+      border-top: 1px solid var(--border);
+      background: #f9fafb;
+    }
+
+    @media (max-width: 767px) {
+      .topbar { padding-inline: 1rem; }
+      .menu-panel { width: 100vw; }
+      .menu-text { display: none; }
+      header.hero { padding: 2rem 1rem 2rem; }
+      main { padding: 1.6rem 1rem 2.2rem; }
+      .hero-inner { flex-direction: column-reverse; align-items: stretch; }
+      .hero h1 { font-size: 1.6rem; }
+      .hero-lead { font-size: 0.92rem; }
+      .hero-photo { min-width: 0; flex: 1 1 100%; min-height: 340px; }
+      .hero-photo::before { width: 300px; height: 300px; }
+      .hero-people { padding: 22px 10px 126px; gap: 8px; }
+      .hero-person.jonas { left: 20px; }
+      .hero-person.jonas .hero-image-box img { width: 230px; }
+      .hero-person.timo { left: -20px; }
+      .hero-person.timo .hero-image-box img { width: 130px; }
+      .hero-card {
+        right: 50%;
+        transform: translateX(50%);
+        width: min(92vw, 340px);
+        bottom: 4px;
+        padding: 14px 18px;
+      }
+      .contact-strip { grid-template-columns: 1fr; }
+      .cta-row { flex-direction: column; align-items: stretch; }
+      .cta-row a { width: 100%; }
+      .calculator,
+      .calculator-grid { grid-template-columns: 1fr; }
+      .field label { min-height: 0; }
+      .field.span-2 { max-width: none; }
     }
   </style>
 </head>
-
 <body>
   <div class="page">
-
     <div class="topbar">
       <div class="topbar-left">
-        <div class="topbar-portrait">
+        <div class="topbar-avatars">
           <img src="jonas-halbkoerper.png" alt="Jonas Plener" />
+          <img src="timo-halbkoerper.png" alt="Timo Hügel" />
         </div>
-        <div style="min-width:0">
-          <div class="topbar-title">Jonas Plener</div>
-          <div class="topbar-tagline">
-            Agentur für Deutsche Vermögensberatung<br />
-            (Region Kinzigtal / Ortenau)
-          </div>
+        <div>
+          <div class="topbar-title">Jonas Plener &amp; Timo Hügel</div>
+          <div class="topbar-tagline">Agentur für Deutsche Vermögensberatung<br />Region Kinzigtal / Ortenau</div>
         </div>
       </div>
 
-      <div class="topbar-right">
-        Eltern, Selbstständige und Angestellte<br />
-        im Kinzigtal &amp; der Ortenau
+      <div class="menu-wrap">
+        <div class="menu-text">Für Eltern, Selbstständige und Angestellte<br />im Kinzigtal &amp; der Ortenau</div>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="menuPanel">
+          <span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
 
-      <button class="burger" id="burgerBtn" aria-label="Menü öffnen">
-        <div class="burger-lines" aria-hidden="true">
-          <span></span><span></span><span></span>
+      <div class="menu-overlay" id="menuOverlay"></div>
+      <nav class="menu-panel" id="menuPanel" aria-label="Navigation">
+        <div class="menu-header">
+          <span class="menu-header-title">Menü</span>
+          <button type="button" class="menu-close-btn" aria-label="Menü schließen">✕</button>
         </div>
-      </button>
+        <div class="menu-content">
+          <section class="menu-section">
+            <h2 class="menu-section-title">Startseite</h2>
+            <ul class="menu-section-links"><li><a href="index.html">Themenauswahl</a></li></ul>
+          </section>
+          <section class="menu-section">
+            <h2 class="menu-section-title">Angestellt</h2>
+            <ul class="menu-section-links">
+              <li><a href="vermoegen-aufbauen-investieren.html">Vermögen aufbauen</a></li>
+              <li><a href="bav.html">bAV</a></li>
+              <li><a href="arbeitskraftabsicherung.html">Arbeitskraft absichern</a></li>
+              <li><a href="risikoleben.html">Familie absichern</a></li>
+              <li><a href="sachversicherungen.html">Sachversicherungen</a></li>
+              <li><a href="immobilien-finanzierung.html">Immobilien &amp; Finanzierung</a></li>
+            </ul>
+          </section>
+          <section class="menu-section">
+            <h2 class="menu-section-title">Eltern &amp; Familie</h2>
+            <ul class="menu-section-links">
+              <li><a href="kinder-absichern.html">Kinder absichern</a></li>
+              <li><a href="eltern-retter-kindererziehungszeiten.html">Kindererziehungszeiten</a></li>
+              <li><a href="riester.html">Riester</a></li>
+              <li><a href="risikoleben.html">Familie absichern</a></li>
+            </ul>
+          </section>
+          <section class="menu-section">
+            <h2 class="menu-section-title">Unternehmer &amp; Selbstständig</h2>
+            <ul class="menu-section-links">
+              <li><a href="liquiditaet.html">Liquidität</a></li>
+              <li><a href="mitarbeiter-benefits.html">Betriebliche Krankenversicherung</a></li>
+              <li><a href="energie.html">Energie</a></li>
+              <li><a href="betriebliche-sachversicherung.html">Betriebliche Sachversicherungen</a></li>
+              <li><a href="ruerup.html" class="active">Rürup</a></li>
+            </ul>
+          </section>
+          <section class="menu-section">
+            <h2 class="menu-section-title">Karriere &amp; Ausbildung</h2>
+            <ul class="menu-section-links">
+              <li><a href="ausbildung-und-zukunft.html">Ausbildung &amp; Zukunft</a></li>
+              <li><a href="karriere-im-finanzbereich.html">Karriere im Finanzbereich</a></li>
+            </ul>
+          </section>
+        </div>
+      </nav>
     </div>
-
-    <div class="menu-backdrop" id="menuBackdrop"></div>
-    <aside class="menu-panel" id="menuPanel" aria-label="Navigation">
-      <div class="menu-head">
-        <div class="ttl">Menü</div>
-        <button class="menu-close" id="menuClose" aria-label="Menü schließen">✕</button>
-      </div>
-
-      <div class="menu-body">
-        <div class="menu-group open">
-          <button type="button" class="menu-toggle"><span>Startseite</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="leistung.html"><strong>Meine Leistungen</strong></a>
-            <a href="index.html">Eltern-Renten-Check</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button type="button" class="menu-toggle"><span>Absicherung &amp; Schutz</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="arbeitskraftabsicherung.html">Berufsunfähigkeit &amp; Arbeitskraft</a>
-            <a href="sachversicherungen.html">Sachversicherungen</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button type="button" class="menu-toggle"><span>Vorsorge &amp; Rente</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="riester.html">Riester-Rente</a>
-            <a href="ruerup.html"><strong>Rürup / Basisrente</strong></a>
-            <a href="bav.html">Betriebliche Altersvorsorge</a>
-            <a href="risikoleben.html">Risikoleben</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button type="button" class="menu-toggle"><span>Vermögensaufbau &amp; Sparen</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="fonds-sparplaene.html">Investment- &amp; Fondssparpläne</a>
-            <a href="einmalanlage.html">Einmalanlage</a>
-            <a href="vermoegensstruktur.html">Vermögensstruktur</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button type="button" class="menu-toggle"><span>Familie &amp; Kinder</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="eltern-retter.html">Eltern-Retter &amp; Kindererziehungszeiten</a>
-            <a href="kinder-absichern.html">Kinder absichern</a>
-            <a href="ausbildung-zukunft.html">Ausbildung &amp; Zukunft</a>
-          </div>
-        </div>
-
-        <div class="menu-group">
-          <button type="button" class="menu-toggle"><span>Unternehmer</span><span class="chev">▾</span></button>
-          <div class="menu-sub">
-            <a href="unternehmer-termin.html">Termin für Unternehmer</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-foot">
-        <a class="btn btn-gold" href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener">Gespräch vereinbaren</a>
-        <a class="btn btn-wa" href="https://wa.me/4917663796605" target="_blank" rel="noopener">Kurzfrage per WhatsApp</a>
-      </div>
-    </aside>
 
     <header class="hero">
       <div class="hero-inner">
-        <div class="hero-left">
-          <div class="hero-label"><span class="dot"></span> Rürup / Basisrente · Steuerhebel + klare Einordnung</div>
-          <h1>Basisrente (Rürup): Wenn Steuern &amp; Altersvorsorge zusammenarbeiten.</h1>
+        <div class="hero-text">
+          <div class="hero-label"><span class="dot"></span>Selbstständig · Freiberufler · Altersvorsorge</div>
+          <h1>Rürup heißt für viele Selbstständige: <strong>heute Steuern senken und parallel Altersvorsorge aufbauen</strong></h1>
           <p class="hero-lead">
-            Du gibst nur <strong>Jahresbrutto</strong> und deinen geplanten <strong>Jahresbeitrag</strong> ein.
-            Dann zeigen wir dir eine <strong>automatische, grobe Steuerwirkung</strong> + ein klares Kreisdiagramm:
-            <strong>eingezahlt</strong> vs. <strong>steuerlich zurück</strong> vs. <strong>Nettobelastung</strong>.
+            Wer selbstständig ist, hat oft keine klassische betriebliche Altersvorsorge. Genau deshalb ist Rürup für viele Unternehmer,
+            Freiberufler und Gutverdiener interessant: <strong>Beiträge können steuerlich stark entlasten</strong>, während gleichzeitig ein
+            planbarer Baustein für das Alter entsteht.
           </p>
+
+          <div class="highlight-box">
+            Der entscheidende Punkt ist nicht nur die Rentenidee, sondern der <strong>Nettoeffekt heute</strong>: Ein Beitrag von zum Beispiel
+            200 EUR im Monat fühlt sich durch die Steuerentlastung oft deutlich kleiner an als die eigentliche Sparrate.
+          </div>
+
+          <div class="hero-badges">
+            <a href="#warum" class="badge"><span>Warum Rürup</span><span class="arrow">↓</span></a>
+            <a href="#steuervorteil" class="badge"><span>Steuervorteil</span><span class="arrow">↓</span></a>
+            <a href="#varianten" class="badge"><span>Varianten</span><span class="arrow">↓</span></a>
+            <a href="#beachten" class="badge"><span>Worauf achten</span><span class="arrow">↓</span></a>
+          </div>
+
+          <div class="cta-row">
+            <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Rürup und Steuervorteil gemeinsam prüfen</a>
+            <a href="https://wa.me/4915141678134" target="_blank" rel="noopener" class="btn-wa">Jonas kontaktieren</a>
+            <a href="https://wa.me/4917663796605" target="_blank" rel="noopener" class="btn-secondary">Timo kontaktieren</a>
+          </div>
         </div>
 
-        <div class="hero-right">
-          <img class="hero-portrait" src="jonas-halbkoerper.png" alt="Jonas Plener" />
-          <div class="partner-card">
-            <div class="partner-title">Dein Ansprechpartner</div>
-            <ul class="partner-list">
-              <li><span class="partner-dot"></span><span>Eltern, Familien &amp; Selbstständige</span></li>
-              <li><span class="partner-dot"></span><span>Beratung digital und vor Ort</span></li>
+        <div class="hero-photo">
+          <div class="hero-people">
+            <div class="hero-person jonas"><div class="hero-image-box"><img src="jonas-halbkoerper.png" alt="Jonas Plener" /></div></div>
+            <div class="hero-person timo"><div class="hero-image-box"><img src="timo-halbkoerper.png" alt="Timo Hügel" /></div></div>
+          </div>
+          <div class="hero-card">
+            <h3>Im Kern wichtig</h3>
+            <ul>
+              <li>Rürup ist vor allem für Selbstständige steuerlich interessant</li>
+              <li>entscheidend ist der Nettoaufwand nach Steuerersparnis</li>
+              <li>Produktwahl, Flexibilität und Auszahlungslogik sauber prüfen</li>
             </ul>
           </div>
         </div>
       </div>
+
+      <div class="contact-strip">
+        <div class="contact-card">
+          <div class="contact-name">Jonas Plener</div>
+          <div class="contact-role">Vermögensberater bei der Deutschen Vermögensberatung</div>
+          <div class="contact-links">
+            <a href="tel:+4915141678134">0151 41678134</a>
+            <a href="mailto:Jonas.Plener@dvag.de">Jonas.Plener@dvag.de</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Timo Hügel</div>
+          <div class="contact-role">Vermögensberater bei der Deutschen Vermögensberatung</div>
+          <div class="contact-links">
+            <a href="tel:+4917663796605">0176 63796605</a>
+            <a href="mailto:Timo.Huegel@dvag.de">Timo.Huegel@dvag.de</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card blue">
+          <div class="stat-label">Steuerhebel</div>
+          <div class="stat-number">spürbarer Nettoeffekt</div>
+          <p class="stat-copy">Je höher Einkommen oder Gewinn ausfallen, desto stärker kann der steuerliche Effekt eines Rürup-Beitrags spürbar werden.</p>
+        </article>
+        <article class="stat-card orange">
+          <div class="stat-label">Für wen</div>
+          <div class="stat-number">vor allem selbstständig</div>
+          <p class="stat-copy">Besonders relevant für Unternehmer, Freiberufler und Gutverdiener ohne bAV-Struktur.</p>
+        </article>
+        <article class="stat-card blue">
+          <div class="stat-label">Planbarkeit</div>
+          <div class="stat-number">Beitrag bewusst steuern</div>
+          <p class="stat-copy">Beiträge lassen sich oft passend zur Ertragssituation und zum gewünschten Steuerziel einordnen.</p>
+        </article>
+        <article class="stat-card green">
+          <div class="stat-label">Ziel</div>
+          <div class="stat-number">Steuervorteil plus Rentenbaustein</div>
+          <p class="stat-copy">Nicht Entweder-oder, sondern Liquidität heute und Altersvorsorge für später sauber verbinden.</p>
+        </article>
+      </div>
     </header>
 
     <main>
-      <section>
-        <h2>Steuer-Check </h2>
-        <p class="section-sub">
-          Keine Auswahlbuttons. Wir schätzen anhand deines <strong>Jahresbrutto (aktuell, grob)</strong> eine typische Steuerwirkung (Näherung).
-          Für die echte Zahl brauchen wir später deine reale Steuersituation – aber fürs Gefühl ist das perfekt.
-        </p>
+      <section id="warum">
+        <h2>1) Warum Rürup für Selbstständige oft so relevant ist</h2>
+        <p class="section-subtitle">Viele Selbstständige haben hohe laufende Steuerlast, aber keinen automatischen Arbeitgeberbaustein für die Altersvorsorge. Genau dort setzt Rürup an.</p>
+        <div class="grid-2">
+          <article class="card blue-card">
+            <div class="card-title">Die typische Ausgangslage</div>
+            <div class="number-pill">hohes Einkommen, wenig Struktur</div>
+            <p>Gerade bei gut laufender Selbstständigkeit wird Altersvorsorge oft nebenbei gedacht. Das Geld bleibt im Betrieb oder auf dem Konto, aber ein klarer Vorsorgeplan fehlt.</p>
+            <ul>
+              <li>keine klassische betriebliche Altersvorsorge wie bei Angestellten</li>
+              <li>hohe Steuerzahlungen schmerzen jedes Jahr aufs Neue</li>
+              <li>Vermögensaufbau läuft oft ungeordnet nebenbei</li>
+            </ul>
+          </article>
+          <article class="card amber-card">
+            <div class="card-title">Warum Rürup hier passt</div>
+            <div class="number-pill">Steuer und Rente verbinden</div>
+            <p>Rürup ist besonders dann interessant, wenn ein Beitrag nicht nur fürs Alter gedacht wird, sondern im gleichen Zug die aktuelle Steuerlast abfedern soll.</p>
+            <ul>
+              <li>steuerlich geförderter Altersvorsorgebaustein</li>
+              <li>besonders interessant bei höherem Gewinn und entsprechender Steuerlast</li>
+              <li>klarer Fokus auf lebenslange Versorgung im Ruhestand</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
-        <div class="calc-wrap">
-          <div class="calc-grid">
-            <div>
+      <section id="steuervorteil">
+        <h2>2) So wirkt der Steuervorteil in der Praxis</h2>
+        <p class="section-subtitle">Wichtig ist nicht nur der eingezahlte Beitrag, sondern wie stark sich dieser Beitrag nach Steuerersparnis wirklich auf Ihr Monatsbudget auswirkt. Die Schätzung unten arbeitet deshalb vereinfacht mit Jahresbrutto beziehungsweise Gewinn vor Steuern und der Kinderzahl.</p>
+
+        <div class="grid-3" style="margin-bottom:1rem;">
+          <article class="card blue-card">
+            <div class="card-title">Beispiel 100 EUR monatlich</div>
+            <p>1.200 EUR Jahresbeitrag können schon bei mittlerem Einkommen eine spürbare Entlastung auslösen.</p>
+            <ul>
+              <li>bei rund 50.000 EUR Jahresbrutto und 1 Kind grob etwa 318 EUR Entlastung</li>
+              <li>Nettoaufwand pro Monat dann nur rund 74 EUR</li>
+              <li>interessant als erster sauberer Vorsorgebaustein</li>
+            </ul>
+          </article>
+          <article class="card amber-card">
+            <div class="card-title">Beispiel 200 EUR monatlich</div>
+            <p>Gerade bei stabilen Gewinnen wird hier der Unterschied zwischen Bruttobeitrag und gefühltem Nettoaufwand deutlich.</p>
+            <ul>
+              <li>2.400 EUR Jahresbeitrag</li>
+              <li>bei rund 80.000 EUR Jahresbrutto und 1 Kind grob etwa 852 EUR Entlastung</li>
+              <li>Nettoaufwand pro Monat dann nur rund 129 EUR</li>
+              <li>macht den Steuervorteil im Alltag oft erst greifbar</li>
+            </ul>
+          </article>
+          <article class="card green-card">
+            <div class="card-title">Beispiel 500 EUR monatlich</div>
+            <p>Bei höherem Einkommen wird Rürup oft erst richtig interessant, weil der Steuereffekt unmittelbar spürbar wird.</p>
+            <ul>
+              <li>6.000 EUR Jahresbeitrag</li>
+              <li>bei rund 120.000 EUR Jahresbrutto und 0 Kindern grob etwa 2.460 EUR Entlastung</li>
+              <li>Nettoaufwand pro Monat dann nur rund 295 EUR</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="calculator">
+          <div class="calculator-panel">
+            <h3 class="flow-title">Eigene Größenordnung grob einordnen</h3>
+            <div class="calculator-grid">
               <div class="field">
-               <label for="income">Jahresbrutto (aktuell, grob) in €</label>
-<input id="income" type="number" min="0" step="100" placeholder="z. B. 70.000" />
+                <label for="monthlyContribution">Monatlicher Rürup-Beitrag in EUR</label>
+                <input id="monthlyContribution" type="number" min="0" step="25" value="200" />
               </div>
-
               <div class="field">
-                <label for="pay">Geplanter Beitrag Basisrente / Jahr in €</label>
-                <input id="pay" type="number" min="0" step="100" placeholder="z. B. 3.000" />
+                <label for="annualGross">Jahresbrutto bzw. Gewinn vor Steuern in EUR</label>
+                <input id="annualGross" type="number" min="0" step="5000" value="80000" />
               </div>
-
-              <div class="row-2" style="margin-top:.75rem">
-                <button class="btn btn-gold" type="button" id="calcBtn">Berechnen</button>
-                <button class="btn btn-outline" type="button" id="resetBtn">Zurücksetzen</button>
-              </div>
-
-              <div class="info">
-                <strong>Transparenz:</strong> Das ist eine <strong>vereinfachte Näherung</strong>, weil Brutto ≠ zu versteuerndes Einkommen
-                (Abzüge, Vorsorge, Kinder, Werbungskosten usw.). Für deinen finalen Mehrwert rechnen wir das im Check sauber.
+              <div class="field span-2">
+                <label for="childrenCount">Anzahl Kinder</label>
+                <input id="childrenCount" type="number" min="0" max="10" step="1" value="1" />
               </div>
             </div>
+            <p class="field-note">Die Rechnung ist nur eine grobe Orientierung. Verwendet wird eine vorsichtige Schätzung aus Jahresbrutto oder Gewinn vor Steuern und Kinderzahl. Themen wie Ehegattensplitting, Kirchensteuer, Krankenversicherung, weitere Sonderausgaben oder der exakte Grenzsteuersatz sind hier bewusst nicht vollständig berücksichtigt.</p>
+          </div>
 
-            <div class="calc-result">
-              <p class="calc-expl">
-                <strong>Ergebnis:</strong> automatische Schätzung + Visualisierung. Ziel ist: sofort sehen, ob der Hebel grob Sinn macht.
-              </p>
-
-              <div class="values">
-                <div class="val">
-                  <div class="k">Geschätzte Steuerwirkung (Näherung)</div>
-                  <div class="v" id="vRate">–</div>
-                </div>
-
-                <div class="val warn">
-                  <div class="k">Steuer zurück (grob)</div>
-                  <div class="v" id="vTax">–</div>
-                </div>
-
-                <div class="val good">
-                  <div class="k">Nettobelastung (grob)</div>
-                  <div class="v" id="vNet">–</div>
-                </div>
-              </div>
-
-              <div class="donut-wrap">
-                <div class="donut" id="donut" style="--taxAngle:0deg">
-                  <div class="donut-center">
-                    <span id="donutPct">–</span>
-                    <small>steuerlich zurück</small>
-                  </div>
-                </div>
-
-                <div>
-                  <div class="legend">
-                    <span class="chip"><span class="dot tax"></span> Steuer zurück</span>
-                    <span class="chip"><span class="dot net"></span> Nettobelastung</span>
-                  </div>
-                  <div class="hintline" id="explainLine">–</div>
-                </div>
-              </div>
-
-              <div class="info">
-                <strong>Merksatz:</strong> Rürup ist stark, wenn „Steuer heute“ + „Netto-Rente später“ zusammen passen.
-                Deshalb schauen wir im nächsten Schritt immer auch auf <strong>Kosten</strong>, <strong>Anlagekonzept</strong> und <strong>Auszahlungssteuer</strong>.
-              </div>
-            </div>
+          <div class="result-stack">
+            <article class="result-card is-positive">
+              <div class="result-title">Jahresbeitrag</div>
+              <strong id="annualContributionResult">2.400 EUR</strong>
+              <p>Das ist der Beitrag, der über zwölf Monate in den Vertrag fließt.</p>
+            </article>
+            <article class="result-card is-info">
+              <div class="result-title">Geschätzte Steuerentlastung</div>
+              <strong id="taxReliefResult">1.008 EUR</strong>
+              <p>Vereinfachte Schätzung auf Basis von Brutto oder Gewinn und Kinderzahl. Entlastungssatz aktuell etwa <span id="estimatedRateResult">36 %</span>.</p>
+            </article>
+            <article class="result-card is-caution">
+              <div class="result-title">Gefühlter Nettoaufwand pro Monat</div>
+              <strong id="netCostResult">116 EUR</strong>
+              <p>So lässt sich besser einschätzen, wie stark der Beitrag das Monatsbudget tatsächlich belastet.</p>
+            </article>
           </div>
         </div>
       </section>
 
-      <section>
-        <h2>Was ist der eigentliche Mehrwert?</h2>
-        <p class="section-sub">Nicht „ein Vertrag“, sondern ein steuerlich unterstützter Rentenbaustein – wenn sauber geplant.</p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="card-title">1) Steuerhebel in der Ansparphase</div>
-            <p>
-              Beiträge können (innerhalb gesetzlicher Grenzen) als Vorsorgeaufwand wirken und so die Steuerlast senken.
-              Der Effekt ist bei höherer Steuerlast oft am deutlichsten.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-title">2) Fokus auf lebenslange Rente</div>
-            <p>
-              Rürup ist darauf ausgelegt, im Alter ein stabiles Zusatzeinkommen zu liefern – planbar und langfristig.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-title">3) Produktqualität entscheidet</div>
-            <p>
-              Kosten, Rentenfaktoren und das Anlagekonzept sind der Unterschied zwischen „smart“ und „bringt nix“.
-            </p>
-          </div>
+      <section id="varianten">
+        <h2>3) Welche Rürup-Variante zu welchem Typ passen kann</h2>
+        <p class="section-subtitle">Nicht jede Rürup-Lösung passt zu jedem Unternehmer. Sicherheitswunsch, Anlagehorizont und Schwankungstoleranz sollten zusammenpassen.</p>
+        <div class="grid-2">
+          <article class="service-card blue-card">
+            <div class="service-title">Klassischer oder sicherheitsorientierter Tarif</div>
+            <p>Interessant für alle, die vor allem planbar vorsorgen möchten und starke Schwankungen vermeiden wollen.</p>
+            <ul>
+              <li>ruhigerer Verlauf und stärkerer Fokus auf Stabilität</li>
+              <li>passend bei konservativer Risikoausrichtung</li>
+              <li>wichtig, wenn Planbarkeit wichtiger ist als Maximalrendite</li>
+            </ul>
+          </article>
+          <article class="service-card green-card">
+            <div class="service-title">Fondsgebundene oder ETF-nahe Lösung</div>
+            <p>Interessant für langfristig orientierte Selbstständige, die stärkere Marktschwankungen aushalten und mehr Renditechance wollen.</p>
+            <ul>
+              <li>höhere Chancen, aber auch mehr Bewegung unterwegs</li>
+              <li>passend bei langem Zeithorizont bis zur Rente</li>
+              <li>entscheidend ist die saubere Fonds- und Kostenstruktur</li>
+            </ul>
+          </article>
         </div>
       </section>
 
-      <section>
-        <h2>Steuern bei der Auszahlung</h2>
-        <p class="section-sub">
-          Wichtig: Der Steuerteil endet nicht beim Abschluss. Entscheidend ist, wie sich die Rente später netto anfühlt.
-        </p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="card-title">Auszahlungsphase ist steuerlich relevant</div>
-            <p>
-              Die spätere Rente wird typischerweise steuerlich berücksichtigt. Darum planen wir immer: <strong>Netto heute</strong> vs. <strong>Netto im Alter</strong>.
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-title">Plan statt Bauchgefühl</div>
-            <p>
-              Rürup ist selten „alleine“ perfekt – oft ist es ein Baustein in einer Gesamtstruktur (weitere Vorsorge/Anlage).
-            </p>
-          </div>
-          <div class="card">
-            <div class="card-title">Checkliste vor Abschluss</div>
-            <p>
-              Beitragshöhe, Flexibilität, Kosten, Konzept, Rentenlogik – erst dann ist „Steuerersparnis“ wirklich ein Mehrwert.
-            </p>
-          </div>
+      <section id="beachten">
+        <h2>4) Was man bei Rürup unbedingt verstehen sollte</h2>
+        <p class="section-subtitle">Rürup ist kein Alleskönner. Der Steuervorteil ist stark, dafür gibt es klare Spielregeln bei Flexibilität und Auszahlung.</p>
+        <div class="flow-diagram">
+          <article class="flow-step">
+            <div class="flow-kicker">Punkt 1</div>
+            <h3 class="flow-title">Geld ist für Altersvorsorge gedacht</h3>
+            <p>Rürup ist kein frei verfügbares Depot. Wer maximale Flexibilität sucht, sollte das vor Vertragsabschluss klar einordnen.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-kicker">Punkt 2</div>
+            <h3 class="flow-title">Steuervorteil heute, Besteuerung später</h3>
+            <p>Der steuerliche Effekt kommt heute. Im Ruhestand wird die spätere Rentenzahlung steuerlich anders behandelt als ein frei verfügbares Vermögensdepot.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-kicker">Punkt 3</div>
+            <h3 class="flow-title">Kosten und Tarifdetails entscheiden</h3>
+            <p>Ob eine Lösung gut ist, erkennt man nicht am Etikett Rürup, sondern an Kosten, Flexibilität, Rentenfaktor und Anlagekonzept.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-kicker">Punkt 4</div>
+            <h3 class="flow-title">Rürup ersetzt nicht alles andere</h3>
+            <p>Oft ist Rürup nur ein Baustein. Liquiditätsreserve, freier Vermögensaufbau und Risikoschutz müssen daneben weiter sauber stehen.</p>
+          </article>
         </div>
       </section>
 
-      <section>
-        <h2>Mythen vs. Fakten</h2>
-        <p class="section-sub">Kurz, damit keine Stammtisch-Rürup-Legenden gewinnen.</p>
-
-        <div class="mf" aria-label="Mythen und Fakten">
-          <div class="mf-row">
-            <div class="mf-cell">
-              <div class="mf-tag">Mythos</div>
-              <p><strong>„Das ist einfach ein Steuerspartrick.“</strong></p>
-            </div>
-            <div class="mf-cell">
-              <div class="mf-tag">Fakt</div>
-              <p>Steuer ist nur der Hebel. Der echte Nutzen entsteht erst, wenn Produkt & Rentenlogik passen.</p>
-            </div>
-          </div>
-          <div class="mf-row">
-            <div class="mf-cell">
-              <div class="mf-tag">Mythos</div>
-              <p><strong>„Wenn ich was zurückbekomme, lohnt es sich automatisch.“</strong></p>
-            </div>
-            <div class="mf-cell">
-              <div class="mf-tag">Fakt</div>
-              <p>Nur wenn die spätere Netto-Rente (nach Kosten/Steuern) im Verhältnis gut ist.</p>
-            </div>
-          </div>
+      <section id="fuer-wen">
+        <h2>5) Für wen eine Prüfung besonders sinnvoll ist</h2>
+        <p class="section-subtitle">Vor allem bei höherer Steuerlast oder fehlender Vorsorgestruktur lohnt sich ein genauer Blick auf Rürup besonders.</p>
+        <div class="grid-3">
+          <article class="priority-card">
+            <div class="priority-number">1</div>
+            <h3 class="priority-title">Selbstständige mit hoher Steuerlast</h3>
+            <ul>
+              <li>laufende Vorauszahlungen schmerzen spürbar</li>
+              <li>Steuerhebel wird unmittelbar relevant</li>
+              <li>Rürup kann Nettoaufwand klar entschärfen</li>
+            </ul>
+          </article>
+          <article class="priority-card">
+            <div class="priority-number">2</div>
+            <h3 class="priority-title">Freiberufler ohne klare Rentenstrategie</h3>
+            <ul>
+              <li>Einnahmen sind gut, Vorsorge ist aber ungeordnet</li>
+              <li>Rürup schafft einen verbindlichen Baustein</li>
+              <li>Steuer und Zukunft werden gemeinsam gedacht</li>
+            </ul>
+          </article>
+          <article class="priority-card">
+            <div class="priority-number">3</div>
+            <h3 class="priority-title">Gutverdiener mit langfristigem Horizont</h3>
+            <ul>
+              <li>je länger der Horizont, desto wichtiger die Struktur</li>
+              <li>Steuervorteil kann über Jahre viel bewirken</li>
+              <li>Produktwahl entscheidet über die Qualität des Ergebnisses</li>
+            </ul>
+          </article>
         </div>
-      </section>
 
-      <section>
-        <h2>Nächster Schritt</h2>
-        <p class="section-sub">
-          Wenn du willst, machen wir den „echten“ Check: Steuerwirkung mit deinen Daten, Produktvergleich, Netto-Prognose im Alter – in verständlich.
-        </p>
+        <div class="highlight-box">
+          Kurz gesagt: Rürup ist vor allem dann stark, wenn <strong>Steuerentlastung heute</strong> und <strong>Altersvorsorge für später</strong>
+          sauber zusammenpassen. Genau deshalb sollte nicht nur gefragt werden, ob man Rürup macht, sondern <strong>wie hoch der Beitrag,
+          welcher Tarif und welche Gesamtkombination wirklich sinnvoll sind</strong>.
+        </div>
 
-        <div class="grid">
-          <div class="card">
-            <div class="card-title">Gespräch vereinbaren</div>
-            <p>Kurzer Check → klare Empfehlung, ob Rürup bei dir Sinn macht (und wie).</p>
-            <div style="margin-top:.75rem">
-              <a class="btn btn-gold" href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener">Gespräch vereinbaren</a>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-title">Kurzfrage per WhatsApp</div>
-            <p>„Ich hab X € Brutto und will Y € sparen – passt Rürup?“ reicht völlig.</p>
-            <div style="margin-top:.75rem">
-              <a class="btn" style="background:var(--wa);color:#fff" href="https://wa.me/4917663796605" target="_blank" rel="noopener">Kurzfrage per WhatsApp</a>
-            </div>
-          </div>
+        <div class="cta-row" style="margin-top:1rem;">
+          <a href="https://forms.cloud.microsoft/e/DYguRWAj0N" target="_blank" rel="noopener" class="btn-primary">Rürup konkret durchrechnen lassen</a>
         </div>
       </section>
     </main>
 
-    <footer>
-      Diese Seite ersetzt keine individuelle Rechts-, Steuer- oder Sozialversicherungsberatung.
-      Alle Angaben ohne Gewähr. Maßgeblich sind Vertragsbedingungen und gesetzliche Regelungen.
-    </footer>
+    <footer>Diese Seite ersetzt keine individuelle Rechts-, Steuer- oder Versicherungsberatung. Alle Angaben ohne Gewähr.</footer>
   </div>
 
   <script>
-    // ===== Burger Menü =====
-    const burgerBtn = document.getElementById("burgerBtn");
-    const menuPanel = document.getElementById("menuPanel");
-    const menuBackdrop = document.getElementById("menuBackdrop");
-    const menuClose = document.getElementById("menuClose");
+    (function () {
+      const burgerBtn = document.getElementById("burgerBtn");
+      const menuPanel = document.getElementById("menuPanel");
+      const menuOverlay = document.getElementById("menuOverlay");
+      const menuCloseBtn = menuPanel.querySelector(".menu-close-btn");
+      const monthlyContributionInput = document.getElementById("monthlyContribution");
+      const annualGrossInput = document.getElementById("annualGross");
+      const childrenCountInput = document.getElementById("childrenCount");
+      const annualContributionResult = document.getElementById("annualContributionResult");
+      const taxReliefResult = document.getElementById("taxReliefResult");
+      const netCostResult = document.getElementById("netCostResult");
+      const estimatedRateResult = document.getElementById("estimatedRateResult");
 
-    const openMenu = () => { menuPanel.classList.add("open"); menuBackdrop.classList.add("open"); };
-    const closeMenu = () => { menuPanel.classList.remove("open"); menuBackdrop.classList.remove("open"); };
+      if (!burgerBtn || !menuPanel || !menuOverlay || !menuCloseBtn) return;
 
-    burgerBtn?.addEventListener("click", openMenu);
-    menuClose?.addEventListener("click", closeMenu);
-    menuBackdrop?.addEventListener("click", closeMenu);
-
-    document.querySelectorAll(".menu-toggle").forEach(btn => {
-      btn.addEventListener("click", () => btn.closest(".menu-group")?.classList.toggle("open"));
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape") closeMenu();
-    });
-
-    // ===== Steuer-Check (automatisch / Näherung) =====
-    const incomeEl = document.getElementById("income");
-    const payEl = document.getElementById("pay");
-    const calcBtn = document.getElementById("calcBtn");
-    const resetBtn = document.getElementById("resetBtn");
-
-    const vRate = document.getElementById("vRate");
-    const vTax  = document.getElementById("vTax");
-    const vNet  = document.getElementById("vNet");
-
-    const donut = document.getElementById("donut");
-    const donutPct = document.getElementById("donutPct");
-    const explainLine = document.getElementById("explainLine");
-
-    function fmtEUR(n){
-      return new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(Math.round(n)) + " €";
-    }
-    function clamp(n,a,b){ return Math.max(a, Math.min(b,n)); }
-
-    function estimateRateFromGross(gross){
-      if(!Number.isFinite(gross) || gross <= 0) return null;
-      if(gross <= 20000) return 0.20;
-      if(gross <= 40000) return 0.28;
-      if(gross <= 60000) return 0.33;
-      if(gross <= 80000) return 0.38;
-      if(gross <= 120000) return 0.42;
-      return 0.45;
-    }
-
-    function calc(){
-      const gross = parseFloat((incomeEl.value || "").replace(",", "."));
-      const pay = parseFloat((payEl.value || "").replace(",", "."));
-
-      if(!Number.isFinite(gross) || gross <= 0 || !Number.isFinite(pay) || pay <= 0){
-        vRate.textContent = "Bitte Brutto & Beitrag eingeben.";
-        vTax.textContent = "–";
-        vNet.textContent = "–";
-        donut.style.setProperty("--taxAngle", "0deg");
-        donutPct.textContent = "–";
-        explainLine.textContent = "–";
-        return;
+      function closeMenu() {
+        menuPanel.classList.remove("open");
+        menuOverlay.classList.remove("open");
+        burgerBtn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
       }
 
-      const rate = estimateRateFromGross(gross);
-      if(rate === null){
-        vRate.textContent = "–";
-        return;
+      function openMenu() {
+        menuPanel.classList.add("open");
+        menuOverlay.classList.add("open");
+        burgerBtn.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
       }
 
-      const taxBack = pay * rate;
-      const net = Math.max(0, pay - taxBack);
+      function formatEuro(value) {
+        return new Intl.NumberFormat("de-DE", {
+          style: "currency",
+          currency: "EUR",
+          maximumFractionDigits: 0
+        }).format(value).replace("€", "EUR").trim();
+      }
 
-      vRate.textContent = Math.round(rate * 100) + " % (Näherung aus Brutto)";
-      vTax.textContent = fmtEUR(taxBack);
-      vNet.textContent = fmtEUR(net);
+      function estimateReliefRate(annualGross, childrenCount) {
+        let estimatedRate = 0.18;
 
-      const pct = clamp((taxBack / pay) * 100, 0, 95);
-      const angle = (pct / 100) * 360;
+        if (annualGross >= 130000) estimatedRate = 0.44;
+        else if (annualGross >= 100000) estimatedRate = 0.41;
+        else if (annualGross >= 80000) estimatedRate = 0.37;
+        else if (annualGross >= 60000) estimatedRate = 0.33;
+        else if (annualGross >= 45000) estimatedRate = 0.28;
+        else if (annualGross >= 30000) estimatedRate = 0.22;
 
-      donut.style.setProperty("--taxAngle", angle.toFixed(2) + "deg");
-      donutPct.textContent = Math.round(pct) + "%";
+        estimatedRate -= Math.min(childrenCount, 4) * 0.015;
+        return Math.min(0.45, Math.max(0.12, estimatedRate));
+      }
 
-      explainLine.textContent =
-        "Bei " + fmtEUR(pay) + " Beitrag und ~" + Math.round(rate*100) + "% Wirkung: ca. " +
-        fmtEUR(taxBack) + " steuerlich zurück · Nettobelastung grob " + fmtEUR(net) + ".";
-    }
+      function updateCalculator() {
+        const monthlyContribution = Math.max(0, Number(monthlyContributionInput.value) || 0);
+        const annualGross = Math.max(0, Number(annualGrossInput.value) || 0);
+        const childrenCount = Math.max(0, Math.floor(Number(childrenCountInput.value) || 0));
+        const reliefRate = estimateReliefRate(annualGross, childrenCount);
+        const annualContribution = monthlyContribution * 12;
+        const taxRelief = annualContribution * reliefRate;
+        const netMonthlyCost = (annualContribution - taxRelief) / 12;
 
-    calcBtn?.addEventListener("click", calc);
+        annualContributionResult.textContent = formatEuro(annualContribution);
+        taxReliefResult.textContent = formatEuro(taxRelief);
+        netCostResult.textContent = formatEuro(netMonthlyCost);
+        estimatedRateResult.textContent = Math.round(reliefRate * 100) + " %";
+      }
 
-    [incomeEl, payEl].forEach(el => {
-      el?.addEventListener("input", () => {
-        if((incomeEl.value||"").trim() !== "" && (payEl.value||"").trim() !== "") calc();
+      burgerBtn.addEventListener("click", function () {
+        const isOpen = burgerBtn.getAttribute("aria-expanded") === "true";
+        if (isOpen) closeMenu(); else openMenu();
       });
-    });
 
-    resetBtn?.addEventListener("click", () => {
-      incomeEl.value = "";
-      payEl.value = "";
-      vRate.textContent = "–";
-      vTax.textContent = "–";
-      vNet.textContent = "–";
-      donut.style.setProperty("--taxAngle", "0deg");
-      donutPct.textContent = "–";
-      explainLine.textContent = "–";
-    });
+      menuCloseBtn.addEventListener("click", closeMenu);
+      menuOverlay.addEventListener("click", closeMenu);
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeMenu();
+      });
+
+      if (monthlyContributionInput && annualGrossInput && childrenCountInput) {
+        monthlyContributionInput.addEventListener("input", updateCalculator);
+        annualGrossInput.addEventListener("input", updateCalculator);
+        childrenCountInput.addEventListener("input", updateCalculator);
+        updateCalculator();
+      }
+    })();
   </script>
 </body>
 </html>
